@@ -35,40 +35,73 @@ public abstract class Produk {
         this.deskripsi = deskripsi;
     }
     
-     private static Connection conn = DatabaseConnection.getConnection();
+     protected static Connection conn = DatabaseConnection.getConnection();
     
     public abstract void detailProduk();
     public abstract void createProduk();
     public abstract void updateProduk();
-    public void deleteProduk(){
-        System.out.println("hapus");
+    
+
+
+   public static List<Produk> getDataProduk(String cari) {
+    List<Produk> daftarProduk = new ArrayList<>();
+    String sql = "SELECT * FROM produk WHERE nama LIKE ? ORDER BY kategori";
+
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setString(1, "%" + cari + "%");
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String kategori = rs.getString("kategori");
+                Produk produk = null;
+
+                switch (kategori) {
+                    case "Truk":
+                        produk = new Truk(
+                            rs.getInt("id"),
+                            rs.getString("nama"),
+                            kategori,
+                            rs.getString("deskripsi"),
+                            rs.getString("kapasitas_maksimal")
+                        );
+                        break;
+                    case "Pickup":
+                        produk = new Pickup(
+                            rs.getInt("id"),
+                            rs.getString("nama"),
+                            kategori,
+                            rs.getString("deskripsi"),
+                            rs.getString("panjang_bak")
+                        );
+                        break;
+                    // Tambah kategori lain jika perlu
+                }
+
+                if (produk != null) {
+                    daftarProduk.add(produk);
+                }
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data produk.");
+        e.printStackTrace();
+    }
+    
+    return daftarProduk;
+}
+   
+   public static void deleteProduk(int idProduk){
+         String sql = "DELETE FROM produk WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, idProduk);
+            int rowsAffected = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     };
 
 
-    public static List<Produk> getDataProduk(String cari) {
-         List<Produk> daftarProduk = new ArrayList<>();
-//    String sql = "SELECT * FROM produk WHERE nama LIKE ?";
-//
-//    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//        pstmt.setString(1, "%" + cari + "%");  // cari bisa ada di mana saja (mengandung)
-//        try (ResultSet rs = pstmt.executeQuery()) {
-//            while (rs.next()) {
-//                Produk produk = new Produk(
-//                    rs.getInt("id"),
-//                    rs.getString("nama"),
-//                    rs.getString("jabatan"),
-//                    rs.getString("no_telp"),
-//                    rs.getString("email"),
-//                    rs.getString("password")
-//                );
-//                daftarProduk.add(produk);
-//            }
-//        }
-//    } catch (SQLException e) {
-//        System.out.println("Gagal mengambil data pegawai.");
-//        e.printStackTrace();
-//    }
-    return daftarProduk      ;
-    }
 }
 
