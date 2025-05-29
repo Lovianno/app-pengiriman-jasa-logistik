@@ -384,7 +384,7 @@ public class MasterMenu extends javax.swing.JFrame {
                             .addComponent(jScrollPane3)
                             .addGroup(cardProdukLayout.createSequentialGroup()
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(216, 216, 216)))))
+                                .addGap(219, 219, 219)))))
                 .addContainerGap())
         );
         cardProdukLayout.setVerticalGroup(
