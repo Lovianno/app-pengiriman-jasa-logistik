@@ -92,6 +92,11 @@ public class PenjualanMenu extends javax.swing.JFrame {
         jButton1.setText("Invoice");
 
         jButton2.setText("Sales Order");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Kwitansi");
 
@@ -213,6 +218,13 @@ public class PenjualanMenu extends javax.swing.JFrame {
         master.setVisible(true);
          dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here: // TODO add your handling code here:
+        MenuSalesOrder SO = new MenuSalesOrder();
+        SO.setVisible(true);
+         dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
