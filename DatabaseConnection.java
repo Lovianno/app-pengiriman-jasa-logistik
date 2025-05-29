@@ -9,7 +9,7 @@ import java.sql.*;
  * @author LOVIANNO
  */
 public class DatabaseConnection {
-     private static final String URL = "jdbc:mysql://localhost:3306/sba-logistik"; // Ubah sesuai database Anda
+     private static final String URL = "jdbc:mysql://localhost:3309/sba-logistik"; // Ubah sesuai database Anda
     private static final String USER = "root"; // Username MySQL Anda
     private static final String PASSWORD = ""; // Kosongkan jika tidak ada password
 
