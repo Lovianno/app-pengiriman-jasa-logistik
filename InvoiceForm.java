@@ -8,18 +8,21 @@ import java.awt.CardLayout;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Date;
 
 /**
  *
  * @author Wahyu
  */
 public class InvoiceForm extends javax.swing.JFrame {
-
+    private boolean isEditMode = false;
+    private String currentEditingInvoice = null;
     /**
      * Creates new form InvoiceForm
      */
     public InvoiceForm() {
         initComponents(); // WAJIB: Initialize components first
+        setLocationRelativeTo(null);
         tampilInvoice(txtCariInvoice.getText()); // Then load data
     }
     
@@ -35,10 +38,8 @@ public class InvoiceForm extends javax.swing.JFrame {
         };
         
         // Add data to table model
-          int i = 0;
     for (Invoice p : daftar) {
         Object[] row = {
-            ++i,
             p.noInvoice,
             p.noSO,
             p.noPembayaran,
@@ -196,10 +197,25 @@ public class InvoiceForm extends javax.swing.JFrame {
         });
 
         btnUbahInvoice.setText("Ubah");
+        btnUbahInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahInvoiceActionPerformed(evt);
+            }
+        });
 
         btnTambahInvoice.setText("Tambah");
+        btnTambahInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahInvoiceActionPerformed(evt);
+            }
+        });
 
         btnHapusInvoice.setText("Hapus");
+        btnHapusInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusInvoiceActionPerformed(evt);
+            }
+        });
 
         btnSimpanInvoice.setText("Simpan");
         btnSimpanInvoice.addActionListener(new java.awt.event.ActionListener() {
@@ -209,6 +225,11 @@ public class InvoiceForm extends javax.swing.JFrame {
         });
 
         btnResetInvoice.setText("Reset");
+        btnResetInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetInvoiceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout dataInvoiceLayout = new javax.swing.GroupLayout(dataInvoice);
         dataInvoice.setLayout(dataInvoiceLayout);
@@ -390,95 +411,143 @@ public class InvoiceForm extends javax.swing.JFrame {
         tampilInvoice(txtCariInvoice.getText());
     }//GEN-LAST:event_txtCariInvoiceActionPerformed
 
-    private void btnSimpanInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanInvoiceActionPerformed
-        // TODO: Implement save functionality
-        try {
-            // Example save logic - adjust according to your Invoice class
-            String noInvoice = txtNoInvoice.getText();
-            String salesOrder = txtSalesOrder.getText();
-            String pembayaran = txtPembayaran.getText();
-            
-            if (noInvoice.isEmpty() || salesOrder.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No. Invoice dan Sales Order wajib diisi!");
+private void btnSimpanInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanInvoiceActionPerformed
+  try {
+            // FIXED: Validate required fields
+            if (txtNoInvoice.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No. Invoice tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
-            // Create new invoice or update existing one
-            // Invoice.saveInvoice(...);
+            if (TglInvoice.getDate() == null || TglJatuhTempo.getDate() == null) {
+                JOptionPane.showMessageDialog(this, "Tanggal tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             
-            JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
-            tampilInvoice(""); // Refresh table
+            java.sql.Date sqlTglInvoice = new java.sql.Date(TglInvoice.getDate().getTime());
+            java.sql.Date sqlTglJatuhTempo = new java.sql.Date(TglJatuhTempo.getDate().getTime());
+
+            // FIXED: Logic for CREATE vs UPDATE
+            Invoice inv = new Invoice(
+                txtNoInvoice.getText().trim(), 
+                txtSalesOrder.getText().trim(),
+                txtPembayaran.getText().trim(),
+                sqlTglInvoice,
+                sqlTglJatuhTempo
+            );
+            
+            // Check if this is a new invoice or update existing one
+            // You might need to add a flag or check if invoice exists
+            boolean isNewInvoice = true; // You should implement proper logic here
+            
+            if (isNewInvoice) {
+                inv.createInvoice();
+                JOptionPane.showMessageDialog(this, "Invoice berhasil disimpan", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                inv.updateInvoice();
+                JOptionPane.showMessageDialog(this, "Invoice berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            setFormMode(false);
+            tampilInvoice(txtCariInvoice.getText()); // Refresh table after save
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSimpanInvoiceActionPerformed
+}//GEN-LAST:event_btnSimpanInvoiceActionPerformed
+
 
     private void btnTambahInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahInvoiceActionPerformed
-        // Clear all fields for new entry
-        txtNoInvoice.setText("");
-        txtSalesOrder.setText("");
-        txtPembayaran.setText("");
-        TglInvoice.setDate(null);
-        TglJatuhTempo.setDate(null);
+ // TODO add your handling code here:
+                        clearForm();
+
+        setFormMode(true);
     }//GEN-LAST:event_btnTambahInvoiceActionPerformed
 
     private void btnUbahInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahInvoiceActionPerformed
         // TODO: Implement edit functionality
+            System.out.println("Ubah button clicked"); // Debug line
         int selectedRow = tblInvoice.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih data yang akan diubah!");
+            JOptionPane.showMessageDialog(this, "Pilih data yang akan diubah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        isEditMode = true; // Set to edit mode
+        setFormMode(true); // Enable form for editing
+        
         // Load selected data to form fields
         DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
+        currentEditingInvoice = model.getValueAt(selectedRow, 0).toString();
+        
         txtNoInvoice.setText(model.getValueAt(selectedRow, 0).toString());
         txtSalesOrder.setText(model.getValueAt(selectedRow, 1).toString());
         txtPembayaran.setText(model.getValueAt(selectedRow, 2).toString());
-        // Set dates if needed
+        
+        // Handle date parsing
+        try {
+            if (model.getValueAt(selectedRow, 3) != null) {
+                java.sql.Date tglInv = (java.sql.Date) model.getValueAt(selectedRow, 3);
+                TglInvoice.setDate(new java.util.Date(tglInv.getTime()));
+            }
+            if (model.getValueAt(selectedRow, 4) != null) {
+                java.sql.Date tglJatuhTempo = (java.sql.Date) model.getValueAt(selectedRow, 4);
+                TglJatuhTempo.setDate(new java.util.Date(tglJatuhTempo.getTime()));
+            }
+        } catch (Exception e) {
+            System.out.println("Error parsing dates: " + e.getMessage());
+        }
+        
+        // Disable invoice number field during edit (primary key shouldn't change)
+        txtNoInvoice.setEnabled(false);
     }//GEN-LAST:event_btnUbahInvoiceActionPerformed
 
     private void btnHapusInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusInvoiceActionPerformed
         // TODO: Implement delete functionality
+     System.out.println("Hapus button clicked"); // Debug line
         int selectedRow = tblInvoice.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih data yang akan dihapus!");
+            JOptionPane.showMessageDialog(this, "Pilih data yang akan dihapus!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        // Get invoice number from selected row
+        DefaultTableModel model = (DefaultTableModel) tblInvoice.getModel();
+        String noInvoice = model.getValueAt(selectedRow, 0).toString();
+        
         int confirm = JOptionPane.showConfirmDialog(this, 
-            "Yakin ingin menghapus data ini?", 
-            "Konfirmasi", 
-            JOptionPane.YES_NO_OPTION);
+            "Yakin ingin menghapus Invoice: " + noInvoice + "?", 
+            "Konfirmasi Hapus", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
             
         if (confirm == JOptionPane.YES_OPTION) {
-            // Delete logic here
-            // Invoice.deleteInvoice(...);
-            tampilInvoice(""); // Refresh table
-            JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
+            try {
+                Invoice.deleteInvoice(noInvoice);
+                tampilInvoice(txtCariInvoice.getText()); // Refresh table
+                JOptionPane.showMessageDialog(this, "Invoice berhasil dihapus!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error menghapus data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnHapusInvoiceActionPerformed
 
     private void btnResetInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetInvoiceActionPerformed
-        // Clear all form fields
-        txtNoInvoice.setText("");
-        txtSalesOrder.setText("");
-        txtPembayaran.setText("");
-        TglInvoice.setDate(null);
-        TglJatuhTempo.setDate(null);
-        txtCariInvoice.setText("");
-        tampilInvoice(""); // Show all data
+         // TODO add your handling code here:
+                setFormMode(false);
     }//GEN-LAST:event_btnResetInvoiceActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         // TODO add your handling code here:
+         System.out.println("Refresh button clicked"); // Debug line
+        tampilInvoice(txtCariInvoice.getText());
+        JOptionPane.showMessageDialog(this, "Data berhasil di-refresh!", "Info", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
         // TODO add your handling code here:
-    MasterMenu mastermenu = new MasterMenu();
-        mastermenu.setVisible(true);
+    PenjualanMenu penjualan = new PenjualanMenu();
+        penjualan.setVisible(true);
          dispose();
     }//GEN-LAST:event_btnKembaliActionPerformed
 
