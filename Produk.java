@@ -101,7 +101,11 @@ public abstract class Produk {
             e.printStackTrace();
         }
     };
-
+   
+    @Override
+    public String toString() {
+        return nama; // ini yang akan tampil di JComboBox
+    }
 
 }
 

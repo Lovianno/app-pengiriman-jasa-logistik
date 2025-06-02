@@ -45,7 +45,7 @@ public abstract class Mitra {
     public abstract void detailMitra();
     public abstract void createMitra();
     public abstract void updateMitra();
-    
+   
     
     public static List<Mitra> getDataMitra(String cari) {
     List<Mitra> daftarMitra = new ArrayList<>();
@@ -109,4 +109,9 @@ public abstract class Mitra {
             e.printStackTrace();
         }
     };
+    
+     @Override
+    public String toString() {
+        return nama; // ini yang akan tampil di JComboBox
+    }
 }
