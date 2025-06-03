@@ -127,7 +127,7 @@ public class Login extends javax.swing.JFrame {
     
     
     public static String nama;
-    public static int id;
+    public static int idPegawai;
         public static String jabatan = "admin";
 
     
@@ -146,7 +146,7 @@ public class Login extends javax.swing.JFrame {
     try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
             this.nama = rs.getString("nama");
-            this.id = rs.getInt("id");
+            this.idPegawai = rs.getInt("id");
                         this.jabatan = rs.getString("jabatan");
 
             JOptionPane.showMessageDialog(this, "Login berhasil, Selamat datang " + rs.getString("nama"));
