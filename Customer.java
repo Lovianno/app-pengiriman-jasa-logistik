@@ -15,14 +15,14 @@ import static pkgfinal.project.pbo.Produk.conn;
 public class Customer extends Mitra {
     private String nomorRekening;
 
-    public Customer(String nama, String badanUsaha, String kategori, String noTelp, String email, String nomorRekening) {
-        super(nama, badanUsaha, kategori, noTelp, email);
+    public Customer(String nama, String badanUsaha, String kategori,  String email,String noTelp, String nomorRekening) {
+        super(nama, badanUsaha, kategori,  email, noTelp);
         this.nomorRekening = nomorRekening;
     }
 
     
-    public Customer(int id, String nama, String badanUsaha, String kategori, String noTelp, String email, String nomorRekening) {
-        super(id, nama, badanUsaha, kategori, noTelp, email);
+    public Customer(int id, String nama, String badanUsaha, String kategori, String email,String noTelp,  String nomorRekening) {
+        super(id, nama, badanUsaha, kategori, email, noTelp);
         this.nomorRekening = nomorRekening;
     }
     
@@ -54,14 +54,15 @@ public class Customer extends Mitra {
     }
      @Override
     public void updateMitra() {
-         String sql = "UPDATE mitra SET nama = ?, badan_usaha = ?, kategori = ?, no_telp = ?, email = ?, nomor_rekening = ? WHERE id = ?";
+         String sql = "UPDATE mitra SET nama = ?, badan_usaha = ?, kategori = ?,  email = ?, no_telp = ?,nomor_rekening = ? WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nama);
             stmt.setString(2, badanUsaha);
 
             stmt.setString(3, kategori);
-            stmt.setString(4, noTelp);
-            stmt.setString(5, email);
+                        stmt.setString(4, email);
+
+            stmt.setString(5, noTelp);
            stmt.setString(6, nomorRekening);
 
             stmt.setInt(7, id);

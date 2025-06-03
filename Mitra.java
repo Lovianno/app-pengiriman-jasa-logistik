@@ -24,21 +24,23 @@ public abstract class Mitra {
     protected String noTelp;
     protected String email;
 
-     public Mitra( String nama, String badanUsaha, String kategori, String noTelp, String email) {
+     public Mitra( String nama, String badanUsaha, String kategori, String email, String noTelp ) {
         this.nama = nama;
         this.badanUsaha = badanUsaha;
         this.kategori = kategori;
+                this.email = email;
+
         this.noTelp = noTelp;
-        this.email = email;
     }
     
-    public Mitra(int id, String nama, String badanUsaha, String kategori, String noTelp, String email) {
+    public Mitra(int id, String nama, String badanUsaha, String kategori,  String email, String noTelp) {
         this.id = id;
         this.nama = nama;
         this.badanUsaha = badanUsaha;
         this.kategori = kategori;
+                this.email = email;
+
         this.noTelp = noTelp;
-        this.email = email;
     }
      protected static Connection conn = DatabaseConnection.getConnection();
 
@@ -67,8 +69,9 @@ public abstract class Mitra {
                             rs.getString("nama"),
                             rs.getString("badan_usaha"),
                             kategori,
-                            rs.getString("no_telp"),
                             rs.getString("email"),
+
+                            rs.getString("no_telp"),
                             rs.getString("nomor_rekening")
                         );
                         break;
@@ -79,8 +82,9 @@ public abstract class Mitra {
                                                             rs.getString("badan_usaha"),
 
                             kategori,
+                           rs.getString("email"),
+
                             rs.getString("no_telp"),
-                            rs.getString("email"),
                             rs.getString("jangkauan_area")
                         );
                         break;

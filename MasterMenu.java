@@ -212,8 +212,8 @@ public class MasterMenu extends javax.swing.JFrame {
         cbBadanUsaha.setEnabled(flag);
 
         txtTelpMitra.setEnabled(flag);
-        txtNorekMitra.setEnabled(flag);
-        txtAreaMitra.setEnabled(flag);
+//        txtNorekMitra.setEnabled(flag);
+//        txtAreaMitra.setEnabled(flag);
         txtEmailMitra.setEnabled(flag);
         btnSimpanMitra.setEnabled(flag);
         btnResetMitra.setEnabled(flag);
@@ -303,10 +303,10 @@ public class MasterMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnProduk = new javax.swing.JButton();
-        btnMitra = new javax.swing.JButton();
         btnPegawai = new javax.swing.JButton();
         btnKembali1 = new javax.swing.JButton();
+        btnMitra = new javax.swing.JButton();
+        btnProduk = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
@@ -394,22 +394,6 @@ public class MasterMenu extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(8, 63, 114));
 
-        btnProduk.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnProduk.setText("Produk");
-        btnProduk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProdukActionPerformed(evt);
-            }
-        });
-
-        btnMitra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnMitra.setText("Mitra");
-        btnMitra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMitraActionPerformed(evt);
-            }
-        });
-
         btnPegawai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnPegawai.setText("Pegawai");
         btnPegawai.addActionListener(new java.awt.event.ActionListener() {
@@ -426,24 +410,40 @@ public class MasterMenu extends javax.swing.JFrame {
             }
         });
 
+        btnMitra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnMitra.setText("Mitra");
+        btnMitra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMitraActionPerformed(evt);
+            }
+        });
+
+        btnProduk.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProduk.setText("Produk");
+        btnProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProdukActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnKembali1)
+                    .addComponent(btnKembali1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnPegawai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPegawai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnMitra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnProduk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addComponent(btnProduk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(24, 24, 24)
                 .addComponent(btnProduk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnMitra)
@@ -1221,17 +1221,6 @@ public class MasterMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbBadanUsahaActionPerformed
 
-    private void btnProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdukActionPerformed
-        // TODO add your handling code here:
-        CardLayout ly =(CardLayout)jPanel3.getLayout();
-        ly.show(jPanel3, "card3");
-    }//GEN-LAST:event_btnProdukActionPerformed
-
-    private void btnMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMitraActionPerformed
-          CardLayout ly =(CardLayout)jPanel3.getLayout();
-        ly.show(jPanel3, "card4");
-    }//GEN-LAST:event_btnMitraActionPerformed
-
     private void btnPegawaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPegawaiActionPerformed
        CardLayout ly =(CardLayout)jPanel3.getLayout();
         ly.show(jPanel3, "card5");
@@ -1405,7 +1394,7 @@ if (pilihan == JOptionPane.OK_OPTION) {
              JOptionPane.showMessageDialog(this, "Pilih produk terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
              return;
         }
-
+validasiComboBoxProduk();
         setFormProdukMode(true);
     }//GEN-LAST:event_btnUbahProdukActionPerformed
 
@@ -1569,7 +1558,7 @@ if (pilihan == JOptionPane.OK_OPTION) {
              JOptionPane.showMessageDialog(this, "Pilih mitra terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
              return;
         }
-
+         validasiComboBoxMitra();
         setFormMitraMode(true);
     }//GEN-LAST:event_btnUbahMitraActionPerformed
 
@@ -1643,16 +1632,19 @@ if (pilihan == JOptionPane.OK_OPTION) {
             JOptionPane.showMessageDialog(this, "No. Telp hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (!txtNorekMitra.getText().trim().matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "No. Rek hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+       
+       
         if (!txtEmailMitra.getText().trim().contains("@")) {
             JOptionPane.showMessageDialog(this, "Email anda salah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if(txtIdMitra.getText().equals("")){
+            
            if(cbKategoriMitra.getSelectedItem().equals("Customer")){
+                if (!txtNorekMitra.getText().trim().matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Nomor Rekening hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
               Customer cst = new Customer(txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtNorekMitra.getText());
               cst.createMitra();
            }
@@ -1663,11 +1655,16 @@ if (pilihan == JOptionPane.OK_OPTION) {
     }
     else{
        if(cbKategoriMitra.getSelectedItem().equals("Customer")){
-             Customer cst = new Customer(Integer.parseInt(txtIdProduk.getText()),txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtNorekMitra.getText());
+             if (!txtNorekMitra.getText().trim().matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Nomor Rekening hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+           
+             Customer cst = new Customer(Integer.parseInt(txtIdMitra.getText()),txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtNorekMitra.getText());
               cst.updateMitra();
            }
            else{
-               Supplier spl = new Supplier(Integer.parseInt(txtIdProduk.getText()),txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtAreaMitra.getText());
+               Supplier spl = new Supplier(Integer.parseInt(txtIdMitra.getText()),txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtAreaMitra.getText());
               spl.updateMitra();
            }       
     }
@@ -1691,6 +1688,18 @@ if (pilihan == JOptionPane.OK_OPTION) {
     private void txtTelpMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelpMitraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelpMitraActionPerformed
+
+    private void btnMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMitraActionPerformed
+        // TODO add your handling code here:
+           CardLayout ly =(CardLayout)jPanel3.getLayout();
+        ly.show(jPanel3, "card4");
+    }//GEN-LAST:event_btnMitraActionPerformed
+
+    private void btnProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdukActionPerformed
+        // TODO add your handling code here:
+          CardLayout ly =(CardLayout)jPanel3.getLayout();
+        ly.show(jPanel3, "card3");
+    }//GEN-LAST:event_btnProdukActionPerformed
     /**
      * @param args the command line arguments
      */

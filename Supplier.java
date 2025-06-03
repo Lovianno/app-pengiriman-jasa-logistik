@@ -14,13 +14,13 @@ import java.sql.SQLException;
 public class Supplier extends Mitra {
     private String jangkauanArea;
     
-    public Supplier( String nama, String badanUsaha, String kategori, String noTelp, String email, String jangkauanArea) {
-        super( nama, badanUsaha, kategori, noTelp, email);
+    public Supplier( String nama, String badanUsaha, String kategori, String email,String noTelp, String jangkauanArea) {
+        super( nama, badanUsaha, kategori, email, noTelp);
         this.jangkauanArea = jangkauanArea;
     }
     
-    public Supplier(int id, String nama, String badanUsaha, String kategori, String noTelp, String email, String jangkauanArea) {
-        super(id, nama, badanUsaha, kategori, noTelp, email);
+    public Supplier(int id, String nama, String badanUsaha, String kategori, String email,String noTelp, String jangkauanArea) {
+        super(id, nama, badanUsaha, kategori, email, noTelp);
         this.jangkauanArea = jangkauanArea;
     }
     
@@ -51,14 +51,15 @@ public class Supplier extends Mitra {
     }
      @Override
     public void updateMitra() {
-        String sql = "UPDATE mitra SET nama = ?, badan_usaha = ?, kategori = ?, no_telp = ?, email = ?, jangkauan_area = ? WHERE id = ?";
+        String sql = "UPDATE mitra SET nama = ?, badan_usaha = ?, kategori = ?,  email = ?, no_telp = ?,jangkauan_area = ? WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nama);
             stmt.setString(2, badanUsaha);
 
             stmt.setString(3, kategori);
-            stmt.setString(4, noTelp);
-            stmt.setString(5, email);
+            stmt.setString(4, email);
+
+            stmt.setString(5, noTelp);
             stmt.setString(6, jangkauanArea);
 
             stmt.setInt(7, id);
