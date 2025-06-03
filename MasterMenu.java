@@ -392,8 +392,9 @@ public class MasterMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(8, 63, 114));
 
+        btnProduk.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnProduk.setText("Produk");
         btnProduk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,6 +402,7 @@ public class MasterMenu extends javax.swing.JFrame {
             }
         });
 
+        btnMitra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnMitra.setText("Mitra");
         btnMitra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -408,6 +410,7 @@ public class MasterMenu extends javax.swing.JFrame {
             }
         });
 
+        btnPegawai.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnPegawai.setText("Pegawai");
         btnPegawai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,6 +418,7 @@ public class MasterMenu extends javax.swing.JFrame {
             }
         });
 
+        btnKembali1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnKembali1.setText("Kembali");
         btnKembali1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,7 +438,7 @@ public class MasterMenu extends javax.swing.JFrame {
                         .addComponent(btnPegawai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnMitra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnProduk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,13 +454,16 @@ public class MasterMenu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(8, 63, 114));
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("SBA Logistik");
 
+        lblUsername.setForeground(new java.awt.Color(255, 255, 255));
         lblUsername.setText("Hi, Username");
 
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLogout.setText("Logout");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -474,9 +481,11 @@ public class MasterMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnLogout)
+                        .addComponent(lblUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21))
-                    .addComponent(lblUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnLogout)
+                        .addGap(40, 40, 40))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -531,6 +540,11 @@ public class MasterMenu extends javax.swing.JFrame {
         txtNamaProduk.setEnabled(false);
 
         txtIdProduk.setEnabled(false);
+        txtIdProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdProdukActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Panjang Bak :");
 
@@ -617,7 +631,7 @@ public class MasterMenu extends javax.swing.JFrame {
                             .addComponent(jLabel9))
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(cardProdukLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
                                 .addComponent(btnTambahProduk)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnUbahProduk)
@@ -671,7 +685,7 @@ public class MasterMenu extends javax.swing.JFrame {
                     .addComponent(btnTambahProduk)
                     .addComponent(btnUbahProduk)
                     .addComponent(btnHapusProduk))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
                         .addComponent(jLabel12)
@@ -805,6 +819,11 @@ public class MasterMenu extends javax.swing.JFrame {
         jLabel23.setText("No. Telp :");
 
         txtTelpMitra.setEnabled(false);
+        txtTelpMitra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelpMitraActionPerformed(evt);
+            }
+        });
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel35.setText("Data Mitra");
@@ -861,7 +880,7 @@ public class MasterMenu extends javax.swing.JFrame {
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtEmailMitra, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                         .addGroup(cardMitraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(cardMitraLayout.createSequentialGroup()
                                 .addComponent(jLabel22)
@@ -911,7 +930,7 @@ public class MasterMenu extends javax.swing.JFrame {
                             .addComponent(btnTambahMitra)
                             .addComponent(btnUbahMitra)
                             .addComponent(btnHapusMitra))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addGroup(cardMitraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtTelpMitra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23))
@@ -970,6 +989,11 @@ public class MasterMenu extends javax.swing.JFrame {
         });
 
         txtTelppegawai.setEnabled(false);
+        txtTelppegawai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelppegawaiActionPerformed(evt);
+            }
+        });
 
         btnResetPegawai.setText("Reset");
         btnResetPegawai.setEnabled(false);
@@ -1052,7 +1076,7 @@ public class MasterMenu extends javax.swing.JFrame {
         cardPegawai.setLayout(cardPegawaiLayout);
         cardPegawaiLayout.setHorizontalGroup(
             cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
             .addGroup(cardPegawaiLayout.createSequentialGroup()
                 .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cardPegawaiLayout.createSequentialGroup()
@@ -1080,18 +1104,21 @@ public class MasterMenu extends javax.swing.JFrame {
                                         .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtIdpegawai, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                                             .addComponent(txtNamapegawai))
-                                        .addGap(35, 35, 35)
+                                        .addGap(26, 26, 26)
                                         .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jLabel27)
+                                            .addComponent(jLabel28))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardPegawaiLayout.createSequentialGroup()
-                                        .addComponent(btnSimpanPegawai, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                                .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(cardPegawaiLayout.createSequentialGroup()
+                                        .addComponent(btnSimpanPegawai, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnResetPegawai))
-                                    .addComponent(txtEmailpegawai)
-                                    .addComponent(txtPasswordpegawai))
+                                    .addGroup(cardPegawaiLayout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtPasswordpegawai, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                                            .addComponent(txtEmailpegawai))))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(cardPegawaiLayout.createSequentialGroup()
                         .addContainerGap()
@@ -1124,13 +1151,14 @@ public class MasterMenu extends javax.swing.JFrame {
                     .addComponent(btnTambahPegawai)
                     .addComponent(btnUbahPegawai)
                     .addComponent(btnHapusPegawai))
-                .addGap(44, 44, 44)
                 .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cardPegawaiLayout.createSequentialGroup()
                         .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(cardPegawaiLayout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(txtIdpegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)
+                                .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtIdpegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel28))
                                 .addGap(9, 9, 9))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardPegawaiLayout.createSequentialGroup()
                                 .addComponent(jLabel29)
@@ -1139,9 +1167,8 @@ public class MasterMenu extends javax.swing.JFrame {
                             .addComponent(txtNamapegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel30)))
                     .addGroup(cardPegawaiLayout.createSequentialGroup()
-                        .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtEmailpegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel28))
+                        .addGap(47, 47, 47)
+                        .addComponent(txtEmailpegawai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(cardPegawaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel27)
@@ -1250,6 +1277,24 @@ if (selectedIndexRow != -1) { // pastikan ada yang dipilih
 
     private void btnSimpanPegawaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanPegawaiActionPerformed
 
+    if (
+        txtNamapegawai.getText().trim().isEmpty() ||
+        cbJabatanpegawai.getSelectedItem() == null ||
+        txtTelppegawai.getText().trim().isEmpty() ||
+        txtEmailpegawai.getText().trim().isEmpty() ||
+        txtPasswordpegawai.getText().trim().isEmpty()
+    ){
+        JOptionPane.showMessageDialog(this, "Mohon isi semua data pegawai!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    if (!txtTelppegawai.getText().trim().matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "No. Telp hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    if (!txtEmailpegawai.getText().trim().contains("@")) {
+        JOptionPane.showMessageDialog(this, "Email anda salah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
     if(txtIdpegawai.getText().equals("")){
        Pegawai pgw = new Pegawai(txtNamapegawai.getText(), cbJabatanpegawai.getSelectedItem().toString(), txtTelppegawai.getText(), txtEmailpegawai.getText(), txtPasswordpegawai.getText());
        pgw.createPegawai();
@@ -1257,7 +1302,7 @@ if (selectedIndexRow != -1) { // pastikan ada yang dipilih
 
     }
     else{
-        Pegawai pgw = new Pegawai(Integer.parseInt(txtIdpegawai.getText()), txtNamapegawai.getText(), cbJabatanpegawai.getSelectedItem().toString(), txtTelppegawai.getText(), txtEmailpegawai.getText(), txtPasswordpegawai.getText());
+       Pegawai pgw = new Pegawai(Integer.parseInt(txtIdpegawai.getText()), txtNamapegawai.getText(), cbJabatanpegawai.getSelectedItem().toString(), txtTelppegawai.getText(), txtEmailpegawai.getText(), txtPasswordpegawai.getText());
        pgw.updatePegawai();
        JOptionPane.showMessageDialog(this, "Pegawai Berhasil disimpan");
     }
@@ -1420,6 +1465,42 @@ if (pilihan == JOptionPane.OK_OPTION) {
 
     private void btnSimpanProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanProdukActionPerformed
         // TODO add your handling code here:
+        String nama = txtNamaProduk.getText().trim();
+        String deskripsi = txtDeskripsi.getText().trim();
+        String panjang = txtPanjang.getText().trim();
+        String kapasitas = txtKapasitas.getText().trim();
+        Object kategoriObj = cbKategoriProduk.getSelectedItem();
+
+        if (nama.isEmpty() || deskripsi.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Mohon isi semua data produk!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (kategoriObj == null || kategoriObj.toString().equals("Pilih Kategori")) {
+            JOptionPane.showMessageDialog(this,
+                    "Mohon pilih kategori produk!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String kategori = kategoriObj.toString();
+
+        if (kategori.equals("Pickup") && panjang.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Panjang Bak harus diisi!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (kategori.equals("Truk") && kapasitas.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Kapasitas Maksimal harus diisi!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if(txtIdProduk.getText().equals("")){
            if(cbKategoriProduk.getSelectedItem().equals("Pickup")){
               Pickup pck = new Pickup(txtNamaProduk.getText(), cbKategoriProduk.getSelectedItem().toString(),  txtDeskripsi.getText(), txtPanjang.getText());
@@ -1428,7 +1509,7 @@ if (pilihan == JOptionPane.OK_OPTION) {
            else{
               Truk trk = new Truk(txtNamaProduk.getText(), cbKategoriProduk.getSelectedItem().toString(),  txtDeskripsi.getText(), txtKapasitas.getText());
               trk.createProduk();
-           }       
+           }
     }
     else{
        if(cbKategoriProduk.getSelectedItem().equals("Pickup")){
@@ -1525,6 +1606,51 @@ if (pilihan == JOptionPane.OK_OPTION) {
 
     private void btnSimpanMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanMitraActionPerformed
         // TODO add your handling code here:
+        String nama = txtNamaMitra.getText().trim();
+        String email = txtEmailMitra.getText().trim();
+        String telp = txtTelpMitra.getText().trim();
+        String norek = txtNorekMitra.getText().trim();
+        String area = txtAreaMitra.getText().trim();
+        
+        Object kategoriObj = cbKategoriMitra.getSelectedItem();
+
+        if (nama.isEmpty() || email.isEmpty() || telp.isEmpty()
+            || kategoriObj == null || kategoriObj.toString().equals("Pilih Kategori")
+            ) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Mohon isi semua data mitra!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String kategori = kategoriObj.toString();
+
+        if (kategori.equals("Customer") && norek.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Untuk kategori Customer, No. Rek harus diisi!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (kategori.equals("Supplier") && area.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Untuk kategori Supplier, Area harus diisi!",
+                    "Peringatan",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!txtTelpMitra.getText().trim().matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "No. Telp hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!txtNorekMitra.getText().trim().matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "No. Rek hanya boleh berisi angka!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!txtEmailMitra.getText().trim().contains("@")) {
+            JOptionPane.showMessageDialog(this, "Email anda salah!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if(txtIdMitra.getText().equals("")){
            if(cbKategoriMitra.getSelectedItem().equals("Customer")){
               Customer cst = new Customer(txtNamaMitra.getText(), cbBadanUsaha.getSelectedItem().toString(), cbKategoriMitra.getSelectedItem().toString(),  txtEmailMitra.getText(), txtTelpMitra.getText(), txtNorekMitra.getText());
@@ -1553,6 +1679,18 @@ if (pilihan == JOptionPane.OK_OPTION) {
 
            tampikanMitra(txtCariMitra.getText());
     }//GEN-LAST:event_btnSimpanMitraActionPerformed
+
+    private void txtIdProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProdukActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdProdukActionPerformed
+
+    private void txtTelppegawaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelppegawaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelppegawaiActionPerformed
+
+    private void txtTelpMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelpMitraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelpMitraActionPerformed
     /**
      * @param args the command line arguments
      */
