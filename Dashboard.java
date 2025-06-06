@@ -18,7 +18,7 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         setLocationRelativeTo(null);
-        lblUsername.setText(Login.nama);
+         lblUsername.setText(Login.nama);
     }
 
     /**

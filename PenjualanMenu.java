@@ -18,6 +18,7 @@ public class PenjualanMenu extends javax.swing.JFrame {
      */
     public PenjualanMenu() {
         initComponents();
+         lblUsername1.setText(Login.nama);
     }
 
     /**
@@ -260,7 +261,7 @@ public class PenjualanMenu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-           InvoiceForm invoice = new InvoiceForm();
+           ViewInvoice invoice = new ViewInvoice();
         invoice.setVisible(true);
          dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

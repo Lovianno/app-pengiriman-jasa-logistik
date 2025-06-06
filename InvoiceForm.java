@@ -42,7 +42,6 @@ public class InvoiceForm extends javax.swing.JFrame {
         Object[] row = {
             p.noInvoice,
             p.noSO,
-            p.noPembayaran,
             p.tanggalInvoice,
             p.tanggalJatuhTempo,
         };
@@ -261,13 +260,13 @@ public class InvoiceForm extends javax.swing.JFrame {
         dataInvoiceLayout.setVerticalGroup(
             dataInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataInvoiceLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(21, 21, 21)
                 .addGroup(dataInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(jLabel32)
                     .addComponent(txtCariInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCariInvoice))
-                .addGap(37, 37, 37)
+                .addGap(34, 34, 34)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(dataInvoiceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -407,12 +406,12 @@ public class InvoiceForm extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(58, 58, 58)
                         .addComponent(dataInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(77, 77, 77)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         pack();
@@ -431,48 +430,48 @@ public class InvoiceForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCariInvoiceActionPerformed
 
 private void btnSimpanInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanInvoiceActionPerformed
-  try {
-            // FIXED: Validate required fields
-            if (txtNoInvoice.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No. Invoice tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if (TglInvoice.getDate() == null || TglJatuhTempo.getDate() == null) {
-                JOptionPane.showMessageDialog(this, "Tanggal tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            java.sql.Date sqlTglInvoice = new java.sql.Date(TglInvoice.getDate().getTime());
-            java.sql.Date sqlTglJatuhTempo = new java.sql.Date(TglJatuhTempo.getDate().getTime());
-
-            // FIXED: Logic for CREATE vs UPDATE
-            Invoice inv = new Invoice(
-                txtNoInvoice.getText().trim(), 
-                txtSalesOrder.getText().trim(),
-                txtPembayaran.getText().trim(),
-                sqlTglInvoice,
-                sqlTglJatuhTempo
-            );
-            
-            // Check if this is a new invoice or update existing one
-            // You might need to add a flag or check if invoice exists
-            boolean isNewInvoice = true; // You should implement proper logic here
-            
-            if (isNewInvoice) {
-                inv.createInvoice();
-                JOptionPane.showMessageDialog(this, "Invoice berhasil disimpan", "Info", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                inv.updateInvoice();
-                JOptionPane.showMessageDialog(this, "Invoice berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            setFormMode(false);
-            tampilInvoice(txtCariInvoice.getText()); // Refresh table after save
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+//  try {
+//            // FIXED: Validate required fields
+//            if (txtNoInvoice.getText().trim().isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "No. Invoice tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//            
+//            if (TglInvoice.getDate() == null || TglJatuhTempo.getDate() == null) {
+//                JOptionPane.showMessageDialog(this, "Tanggal tidak boleh kosong!", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//            
+//            java.sql.Date sqlTglInvoice = new java.sql.Date(TglInvoice.getDate().getTime());
+//            java.sql.Date sqlTglJatuhTempo = new java.sql.Date(TglJatuhTempo.getDate().getTime());
+//
+//            // FIXED: Logic for CREATE vs UPDATE
+//            Invoice inv = new Invoice(
+//                txtNoInvoice.getText().trim(), 
+//                txtSalesOrder.getText().trim(),
+//                txtPembayaran.getText().trim(),
+//                sqlTglInvoice,
+//                sqlTglJatuhTempo
+//            );
+//            
+//            // Check if this is a new invoice or update existing one
+//            // You might need to add a flag or check if invoice exists
+//            boolean isNewInvoice = true; // You should implement proper logic here
+//            
+//            if (isNewInvoice) {
+//                inv.createInvoice();
+//                JOptionPane.showMessageDialog(this, "Invoice berhasil disimpan", "Info", JOptionPane.INFORMATION_MESSAGE);
+//            } else {
+//                inv.updateInvoice();
+//                JOptionPane.showMessageDialog(this, "Invoice berhasil diperbarui", "Info", JOptionPane.INFORMATION_MESSAGE);
+//            }
+//
+//            setFormMode(false);
+//            tampilInvoice(txtCariInvoice.getText()); // Refresh table after save
+//            
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//        }
 }//GEN-LAST:event_btnSimpanInvoiceActionPerformed
 
 

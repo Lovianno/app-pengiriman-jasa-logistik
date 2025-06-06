@@ -1,53 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pkgfinal.project.pbo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- *
- * @author LOVIANNO
- */
-import java.util.Date;
 
 public class Kwitansi {
     protected String noKwitansi;
     protected String noInvoice;
-    protected String namaPelanggan;
-    protected Date tanggalKwitansi;
-    protected double jumlah;
-    protected String keterangan;
+    protected String metodeBayar;
+    protected java.util.Date tanggal;
+    protected String catatan;
+    protected long totalBayar;
 
     private static Connection conn = DatabaseConnection.getConnection();
 
     // Constructor
-    public Kwitansi(String noKwitansi, String noInvoice, String namaPelanggan, Date tanggalKwitansi, double jumlah, String keterangan) {
+    public Kwitansi(String noKwitansi, String noInvoice, String metodeBayar, java.util.Date tanggal, String catatan, long totalBayar) {
         this.noKwitansi = noKwitansi;
         this.noInvoice = noInvoice;
-        this.namaPelanggan = namaPelanggan;
-        this.tanggalKwitansi = tanggalKwitansi;
-        this.jumlah = jumlah;
-        this.keterangan = keterangan;
+        this.metodeBayar = metodeBayar;
+        this.tanggal = tanggal;
+        this.catatan = catatan;
+        this.totalBayar = totalBayar;
     }
 
-    // Untuk menyimpan kwitansi ke database
+    // Menyimpan kwitansi ke database
     public void createKwitansi() {
-        String sql = "INSERT INTO kwitansi (no_kwitansi, no_invoice, nama_pelanggan, tanggal_kwitansi, jumlah, keterangan) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO kwitansi (no_kwitansi, no_invoice, metode_bayar, tanggal, catatan, total_bayar) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noKwitansi);
             stmt.setString(2, noInvoice);
-            stmt.setString(3, namaPelanggan);
-            stmt.setDate(4, (java.sql.Date) tanggalKwitansi);
-            stmt.setDouble(5, jumlah);
-            stmt.setString(6, keterangan);
+            stmt.setString(3, metodeBayar);
+            stmt.setDate(4, new Date(tanggal.getTime()));
+            stmt.setString(5, catatan);
+            stmt.setLong(6, totalBayar);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Gagal menyimpan kwitansi.");
@@ -55,22 +45,22 @@ public class Kwitansi {
         }
     }
 
-    // Untuk mengambil daftar kwitansi berdasarkan nama pelanggan
-    public static List<Kwitansi> getDataKwitansi(String cari) {
+    // Mengambil daftar kwitansi berdasarkan nomor invoice
+    public static List<Kwitansi> getDataKwitansi(String cariInvoice) {
         List<Kwitansi> daftar = new ArrayList<>();
-        String sql = "SELECT * FROM kwitansi WHERE nama_pelanggan LIKE ?";
+        String sql = "SELECT * FROM kwitansi WHERE no_kwitansi LIKE ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, "%" + cari + "%");
+            stmt.setString(1, "%" + cariInvoice + "%");
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Kwitansi k = new Kwitansi(
                         rs.getString("no_kwitansi"),
                         rs.getString("no_invoice"),
-                        rs.getString("nama_pelanggan"),
-                        rs.getDate("tanggal_kwitansi"),
-                        rs.getDouble("jumlah"),
-                        rs.getString("keterangan")
+                        rs.getString("metode_bayar"),
+                        rs.getDate("tanggal"),
+                        rs.getString("catatan"),
+                        rs.getLong("total_bayar")
                     );
                     daftar.add(k);
                 }
@@ -82,16 +72,18 @@ public class Kwitansi {
 
         return daftar;
     }
-
-    // Untuk mengupdate kwitansi
+    
+    
+   
+    // Update kwitansi
     public void updateKwitansi() {
-        String sql = "UPDATE kwitansi SET no_invoice = ?, nama_pelanggan = ?, tanggal_kwitansi = ?, jumlah = ?, keterangan = ? WHERE no_kwitansi = ?";
+        String sql = "UPDATE kwitansi SET no_invoice = ?, metode_bayar = ?, tanggal_kwitansi = ?, catatan = ?, total_bayar = ? WHERE no_kwitansi = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noInvoice);
-            stmt.setString(2, namaPelanggan);
-            stmt.setDate(3, (java.sql.Date) tanggalKwitansi);
-            stmt.setDouble(4, jumlah);
-            stmt.setString(5, keterangan);
+            stmt.setString(2, metodeBayar);
+            stmt.setDate(3, new Date(tanggal.getTime()));
+            stmt.setString(4, catatan);
+            stmt.setLong(5, totalBayar);
             stmt.setString(6, noKwitansi);
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -100,7 +92,7 @@ public class Kwitansi {
         }
     }
 
-    // Untuk menghapus kwitansi
+    // Hapus kwitansi
     public static void deleteKwitansi(String noKwitansi) {
         String sql = "DELETE FROM kwitansi WHERE no_kwitansi = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -112,15 +104,15 @@ public class Kwitansi {
         }
     }
 
-    // Untuk mencetak kwitansi
+    // Cetak kwitansi
     public void cetakKwitansi() {
         System.out.println("===== KWITANSI =====");
         System.out.println("No. Kwitansi   : " + noKwitansi);
-        System.out.println("Tanggal        : " + tanggalKwitansi);
-        System.out.println("Metode Bayar   : " + keterangan);
+        System.out.println("Tanggal        : " + tanggal);
+        System.out.println("Metode Bayar   : " + metodeBayar);
         System.out.println("No. Invoice    : " + noInvoice);
-        System.out.println("Nama Pelanggan : " + namaPelanggan);
-        System.out.println("Jumlah         : Rp " + jumlah);
+        System.out.println("Catatan        : " + catatan);
+        System.out.println("Total Bayar    : Rp " + totalBayar);
         System.out.println("====================");
     }
 }

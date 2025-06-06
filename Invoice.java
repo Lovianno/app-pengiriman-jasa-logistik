@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -21,14 +22,12 @@ import java.sql.Date;
 public class Invoice {
     protected String noInvoice;
     protected String noSO;
-    protected String noPembayaran;
     protected Date tanggalInvoice;
     protected Date tanggalJatuhTempo;
 
-    public Invoice(String noInvoice, String noSO, String noPembayaran, Date tanggalInvoice, Date tanggalJatuhTempo) {
+    public Invoice(String noInvoice, String noSO, Date tanggalInvoice, Date tanggalJatuhTempo) {
         this.noInvoice = noInvoice;
         this.noSO = noSO;
-        this.noPembayaran = noPembayaran;
         this.tanggalInvoice = tanggalInvoice;
         this.tanggalJatuhTempo = tanggalJatuhTempo;
     }
@@ -58,7 +57,6 @@ public class Invoice {
                         // FIXED: Nama kolom database harus sesuai dengan yang ada di database
                         rs.getString("no_invoice"),         // bukan "No. Invoice"
                         rs.getString("no_so"),              // bukan "No. Sales Order"
-                        rs.getString("no_pembayaran"),      // bukan "No. Pembayaran"
                         rs.getDate("tanggal_invoice"),      // bukan "Tgl.Invoice"
                         rs.getDate("tanggal_jatuh_tempo")   // bukan "Tgl.Jatuh Tempo"
                     );
@@ -72,13 +70,43 @@ public class Invoice {
         return daftarInvoice;
     }
    
+    
+     public static List<Invoice> getDataInvoiceWithStatus(String cari) {
+       List<Invoice> daftar = new ArrayList<>();
+    String sql = """
+        SELECT i.* 
+        FROM invoice i
+        JOIN sales_order so ON i.no_so = so.no_so
+        WHERE so.status = 0 AND i.no_invoice LIKE ?
+    """;
+
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, "%" + cari + "%");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Invoice inv = new Invoice(
+                rs.getString("no_invoice"),
+                rs.getString("no_so"),
+                rs.getDate("tanggal_invoice"),
+                rs.getDate("tanggal_jatuh_tempo")
+            );
+            daftar.add(inv);
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data invoice.");
+        e.printStackTrace();
+    }
+
+    return daftar;
+    }
+    
     public void createInvoice() {
         // FIXED: Query INSERT hanya butuh 5 parameter, bukan 6
-        String sql = "INSERT INTO invoice (no_invoice, no_so, no_pembayaran, tanggal_invoice, tanggal_jatuh_tempo) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO invoice (no_invoice, no_so,  tanggal_invoice, tanggal_jatuh_tempo) VALUES (?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noInvoice);
             stmt.setString(2, noSO);
-            stmt.setString(3, noPembayaran);
             stmt.setDate(4, tanggalInvoice);
             stmt.setDate(5, tanggalJatuhTempo);
             
@@ -94,10 +122,9 @@ public class Invoice {
     }
     
     public void updateInvoice() {
-        String sql = "UPDATE invoice SET no_so = ?, no_pembayaran = ?, tanggal_invoice = ?, tanggal_jatuh_tempo = ? WHERE no_invoice = ?";
+        String sql = "UPDATE invoice SET no_so = ?, tanggal_invoice = ?, tanggal_jatuh_tempo = ? WHERE no_invoice = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noSO);
-            stmt.setString(2, noPembayaran);
             stmt.setDate(3, tanggalInvoice);
             stmt.setDate(4, tanggalJatuhTempo);
             stmt.setString(5, noInvoice);
@@ -150,4 +177,8 @@ public class Invoice {
         }
         return false;
     }
+            @Override
+        public String toString() {
+            return noInvoice; 
+        }
 }

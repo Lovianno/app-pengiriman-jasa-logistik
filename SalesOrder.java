@@ -149,6 +149,10 @@ public class SalesOrder {
             e.printStackTrace();
         }
     }
+    
+       @Override
+        public String toString() {
+            return noSO; 
+        }
 
-    // Getters & setters bisa ditambahkan
 }
