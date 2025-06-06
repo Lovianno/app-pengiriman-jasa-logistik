@@ -55,7 +55,7 @@ public class SalesOrder {
                  "JOIN mitra s ON so.supplier_id = s.id " +
                  "JOIN pegawai p ON so.pegawai_id = p.id " +
                  "WHERE so.no_so LIKE ? OR so.tujuan LIKE ? OR so.dikirim_dari LIKE ?" +
-                 "ORDER BY so.tanggal DESC"; 
+                 "ORDER BY so.created_at DESC"; 
 
     try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
         String keyword = "%" + cari + "%";
@@ -89,6 +89,45 @@ public class SalesOrder {
 
     return daftarSO;
 }
+// untuk combobox
+public static List<SalesOrder> getDataSalesOrderByStatus(Integer status) {
+    List<SalesOrder> daftarSO = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("SELECT * FROM sales_order");
+
+    if (status != null) {
+        sql.append(" WHERE status = ?");
+    }
+
+    sql.append(" ORDER BY tanggal DESC");
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        if (status != null) {
+            pstmt.setInt(1, status);
+        }
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                SalesOrder so = new SalesOrder(
+                    rs.getString("no_so"),
+                    rs.getDate("tanggal"),
+                    rs.getString("dikirim_dari"),
+                    rs.getString("tujuan"),
+                    rs.getInt("customer_id"),
+                    rs.getInt("supplier_id"),
+                    rs.getInt("pegawai_id"),
+                    rs.getLong("harga_total"),
+                    rs.getInt("status")
+                );
+                daftarSO.add(so);
+            }
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return daftarSO;
+}
 
 
 
@@ -106,6 +145,34 @@ public class SalesOrder {
     return "SO-"+result.toString();
     }
     
+    
+      public static SalesOrder getNoSO(String noSO) {
+        String sql = "SELECT * FROM sales_order WHERE no_so = ?";
+        try (PreparedStatement stmt = DatabaseConnection.getConnection().prepareStatement(sql)) {
+            stmt.setString(1, noSO);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                   SalesOrder so = new SalesOrder(
+                    rs.getString("no_so"),
+                    rs.getDate("tanggal"),
+                    rs.getString("dikirim_dari"),
+                    rs.getString("tujuan"),
+                    rs.getInt("customer_id"),
+                    rs.getInt("supplier_id"),
+                    rs.getInt("pegawai_id"),
+                    rs.getLong("harga_total"),
+                    rs.getInt("status")
+                );
+                    // baca kolom lain sesuai kebutuhan…
+                    return so;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Gagal mengambil SalesOrder by noSO: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
     public void createSO() {
         // logika menyimpan ke database
          String sql = "INSERT INTO sales_order(no_so, tanggal, dikirim_dari, tujuan, customer_id, supplier_id, pegawai_id, harga_total, status) VALUES (?,?,?,?, ?, ?,?,?,?)";

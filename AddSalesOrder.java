@@ -721,7 +721,7 @@ public class AddSalesOrder extends javax.swing.JFrame {
 
      }
         String NoSO = SalesOrder.generateNoSO(4);
-                Date tanggalSekarang = new Date(System.currentTimeMillis());
+      Date tanggalSekarang = new Date(System.currentTimeMillis());
        SalesOrder so = new SalesOrder(NoSO,tanggalSekarang ,txtAsal.getText(),  txtTujuan.getText(), idCustomer, idSupplier, Login.idPegawai
  , totalHargaJual, 0);
        so.createSO();
@@ -737,6 +737,12 @@ public class AddSalesOrder extends javax.swing.JFrame {
         detail.createDetailSO();
     }
        JOptionPane.showMessageDialog(this, "Sales Order Berhasil dibuat", "Info", JOptionPane.INFORMATION_MESSAGE);
+       
+        String formatNoInvoice= so.noSO;
+        Date sqlTanggal = tanggalSekarang;
+        Invoice inv = new Invoice("INV-"+formatNoInvoice.substring(formatNoInvoice.length()-4), so.noSO, sqlTanggal, null);
+        inv.createInvoice();
+        
         MenuSalesOrder mso = new MenuSalesOrder();
         mso.setVisible(true);
         dispose();

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import java.sql.Date;
 public class ViewInvoice extends javax.swing.JFrame {
 
     /**
@@ -22,11 +23,12 @@ public class ViewInvoice extends javax.swing.JFrame {
         initComponents();
         lblUsername.setText(Login.nama);
         tampilkanInvoice("");
-        loadSOToComboBox();
-                cbNoSO.setSelectedItem(null);
+        loadSOToComboBox(null);
+        cbNoSO.setSelectedItem(null);
         AutoCompleteDecorator.decorate(cbNoSO);
 
     }
+    private int statusSO;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +46,6 @@ public class ViewInvoice extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         btnKembali2 = new javax.swing.JButton();
-        btnTambahInvoice = new javax.swing.JButton();
         cardProduk = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblInvoice = new javax.swing.JTable();
@@ -56,7 +57,6 @@ public class ViewInvoice extends javax.swing.JFrame {
         btnSimpanInvoice = new javax.swing.JButton();
         btnResetInvoice = new javax.swing.JButton();
         btnUbahInvoice = new javax.swing.JButton();
-        btnHapusInvoice = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         txtCariInvoice = new javax.swing.JTextField();
@@ -128,30 +128,19 @@ public class ViewInvoice extends javax.swing.JFrame {
             }
         });
 
-        btnTambahInvoice.setText("Tambah");
-        btnTambahInvoice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTambahInvoiceActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnKembali2, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(btnTambahInvoice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17)
+                .addComponent(btnKembali2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btnTambahInvoice)
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addComponent(btnKembali2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -210,18 +199,16 @@ public class ViewInvoice extends javax.swing.JFrame {
             }
         });
 
-        btnHapusInvoice.setText("Hapus");
-        btnHapusInvoice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusInvoiceActionPerformed(evt);
-            }
-        });
-
         jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel33.setText("Data Invoice");
 
         jLabel34.setText("Cari  :");
 
+        txtCariInvoice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCariInvoiceActionPerformed(evt);
+            }
+        });
         txtCariInvoice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCariInvoiceKeyPressed(evt);
@@ -292,12 +279,9 @@ public class ViewInvoice extends javax.swing.JFrame {
                             .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(cardProdukLayout.createSequentialGroup()
-                                .addComponent(btnUbahInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnHapusInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtJatem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(txtJatem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUbahInvoice, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
         cardProdukLayout.setVerticalGroup(
             cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +291,7 @@ public class ViewInvoice extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCariInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCariInvoice)
+                            .addComponent(btnCariInvoice, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34)))
                     .addGroup(cardProdukLayout.createSequentialGroup()
                         .addContainerGap()
@@ -315,9 +299,7 @@ public class ViewInvoice extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHapusInvoice)
-                    .addComponent(btnUbahInvoice))
+                .addComponent(btnUbahInvoice)
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
@@ -392,7 +374,7 @@ public class ViewInvoice extends javax.swing.JFrame {
 //        txtNoInvoice.setEnabled(flag);
         txtTanggal.setEnabled(flag);
 
-        cbNoSO.setEnabled(flag);
+//        cbNoSO.setEnabled(flag);
         txtTanggal.setEnabled(flag);
         txtJatem.setEnabled(flag);    
 
@@ -402,7 +384,6 @@ public class ViewInvoice extends javax.swing.JFrame {
         
         btnUbahInvoice.setEnabled(!flag);
 //        btnTambahInvoice.setEnabled(!flag);
-        btnHapusInvoice.setEnabled(!flag);
         
          if (!flag) {
         // Hapus isi form saat nonaktif
@@ -427,19 +408,19 @@ public class ViewInvoice extends javax.swing.JFrame {
       
    }
    
-    private void loadSOToComboBox() {
+    private void loadSOToComboBox(Integer status) {
                 
                 
     cbNoSO.removeAllItems(); // kosongkan dulu
     
-        List<SalesOrder> daftar = SalesOrder.getDataSalesOrderJoin("");
+        List<SalesOrder> daftar = SalesOrder.getDataSalesOrderByStatus(status);
     for (SalesOrder s : daftar) {
         cbNoSO.addItem(s);
         }
     }
    
      private void tampilkanInvoice(String cari) {
-    List<Invoice> daftar = Invoice.getDataInvoice(cari);
+    List<Invoice> daftar = Invoice.getDataInvoiceWithStatus(cari, null);
     String[] kolom = {"No", "No Invoice", "Nomor SO",  "Tanggal", "Jatuh Tempo"};
 
     // Buat model tabel yang tidak bisa diedit
@@ -500,55 +481,53 @@ public class ViewInvoice extends javax.swing.JFrame {
 
     private void btnSimpanInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanInvoiceActionPerformed
         // TODO add your handling code here:
-
+         if(cbNoSO.getSelectedItem() == null){
+                    JOptionPane.showMessageDialog(this, "Pilih Nomor Sales Order Dahulu!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+         if(txtTanggal.getDate() == null){
+                    JOptionPane.showMessageDialog(this, "Tanggal tidak boleh kosong!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+        if(txtJatem.getDate() == null){
+                    JOptionPane.showMessageDialog(this, "Tanggal Jatuh Tempo tidak boleh kosong!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }  
+        String noSO=cbNoSO.getSelectedItem().toString();
+        Date sqlTanggal = new Date(txtTanggal.getDate().getTime());
+        Date sqlJatem = new Date(txtJatem.getDate().getTime());
+        
+          Invoice inv = new Invoice(txtNoInvoice.getText(),noSO, sqlTanggal, sqlJatem );
+            inv.updateInvoice();
+            JOptionPane.showMessageDialog(this, "Invoice Berhasil disimpan", "Info", JOptionPane.INFORMATION_MESSAGE);
+            tampilkanInvoice("");
+            setFormKwitansiMode(false);
+            clearForm();
     }//GEN-LAST:event_btnSimpanInvoiceActionPerformed
 
     private void btnResetInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetInvoiceActionPerformed
-        clearForm();
-        setFormKwitansiMode(false);        // TODO add your handling code here:
-    }//GEN-LAST:event_btnResetInvoiceActionPerformed
 
-    private void btnTambahInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahInvoiceActionPerformed
-        // TODO add your handling code here:
-//        clearForm();
-//        setFormKwitansiMode(true);
-AddInvoice addInvoice = new AddInvoice();
-addInvoice.setVisible(true);
-    }//GEN-LAST:event_btnTambahInvoiceActionPerformed
+        clearForm();
+        setFormKwitansiMode(false);
+        
+    }//GEN-LAST:event_btnResetInvoiceActionPerformed
 
     private void btnUbahInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahInvoiceActionPerformed
         // TODO add your handling code here:
-//        if(txtIdKwitansi.getText().equals("")){
-//            JOptionPane.showMessageDialog(this, "Pilih produk terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-        setFormKwitansiMode(true);
-    }//GEN-LAST:event_btnUbahInvoiceActionPerformed
-
-    private void btnHapusInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusInvoiceActionPerformed
-        // TODO add your handling code here:
-        if(txtNoInvoice.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Pilih produk terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
+        if(txtNoInvoice.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Pilih Invoice terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        int pilihan = JOptionPane.showConfirmDialog(
-            null,
-            "Apakah anda ingin menghapus data tersebut?",
-            "Hapus",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.WARNING_MESSAGE
-        );
-
-        if (pilihan == JOptionPane.OK_OPTION) {
-            Produk.deleteProduk(Integer.parseInt(txtNoInvoice.getText()));
-            JOptionPane.showMessageDialog(this, "Berhasil menghapus produk!", "Alert", JOptionPane.INFORMATION_MESSAGE);
-//            setFormKwitansiMode(false);
-//            clearForm();
-
-            //            tampikanProduk(txtCariKwitansi.getText());
-        }
-    }//GEN-LAST:event_btnHapusInvoiceActionPerformed
+    if(statusSO == 1){
+                    JOptionPane.showMessageDialog(this, "Order sudah selesai, tidak dapat diubah!", "Info", JOptionPane.WARNING_MESSAGE);
+                    return;
+    }
+       
+        
+        
+        
+        setFormKwitansiMode(true);
+    }//GEN-LAST:event_btnUbahInvoiceActionPerformed
 
     private void txtCariInvoiceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariInvoiceKeyPressed
         // TODO add your handling code here:
@@ -556,14 +535,14 @@ addInvoice.setVisible(true);
 
     private void btnCariInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariInvoiceActionPerformed
         // TODO add your handling code here:
-//        tampilkanKwitansi(txtCariKwitansi.getText());
+        tampilkanInvoice(txtCariInvoice.getText());
     }//GEN-LAST:event_btnCariInvoiceActionPerformed
 
     private void cbNoSOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNoSOActionPerformed
         // TODO add your handling code here:
           SalesOrder selected = (SalesOrder)cbNoSO.getSelectedItem();
     if (selected != null) {
-      
+        statusSO = selected.status;
         txtTotalHarga.setValue( selected.hargaTotal);
     }
     }//GEN-LAST:event_cbNoSOActionPerformed
@@ -573,14 +552,11 @@ addInvoice.setVisible(true);
     int selectedIndexRow = tblInvoice.getSelectedRow();
 
     if (selectedIndexRow != -1) {
-        // Ambil nilai dari tabel
         String noInvoice = model.getValueAt(selectedIndexRow, 1).toString();
         String noSO = model.getValueAt(selectedIndexRow, 2).toString();
 
-        // Set nilai ke field
         txtNoInvoice.setText(noInvoice);
 
-        // Pilih item combo box berdasarkan objek SalesOrder
         for (int i = 0; i < cbNoSO.getItemCount(); i++) {
             SalesOrder s = (SalesOrder) cbNoSO.getItemAt(i);
             if (s.noSO.equals(noSO)) {
@@ -589,21 +565,24 @@ addInvoice.setVisible(true);
             }
         }
 
-        // Set tanggal invoice
-        Object tanggalObj = model.getValueAt(selectedIndexRow, 3); // kolom 3 = tanggal_invoice
-        if (tanggalObj instanceof java.sql.Date) {
-            java.util.Date tanggalUtil = new java.util.Date(((java.sql.Date) tanggalObj).getTime());
-            txtTanggal.setDate(tanggalUtil);
-        }
+       txtTanggal.setDate((Date) model.getValueAt(selectedIndexRow, 3));
+       if(model.getValueAt(selectedIndexRow, 4) != null){
+                       txtJatem.setDate((Date) model.getValueAt(selectedIndexRow, 4));
 
-        // Set tanggal jatuh tempo
-        Object tempoObj = model.getValueAt(selectedIndexRow, 4); // kolom 4 = tanggal_jatuh_tempo
-        if (tempoObj instanceof java.sql.Date) {
-            java.util.Date tempoUtil = new java.util.Date(((java.sql.Date) tempoObj).getTime());
-            txtJatem.setDate(tempoUtil); // jika ada field jatuh tempo
-        }
+       }
+       else{
+                      txtJatem.setDate(null);
+
+       }
     }
     }//GEN-LAST:event_tblInvoiceMouseClicked
+
+    private void txtCariInvoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCariInvoiceActionPerformed
+        // TODO add your handling code here:
+        if(txtCariInvoice.getText().trim().isEmpty()){
+            tampilkanInvoice("");
+        }
+    }//GEN-LAST:event_txtCariInvoiceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -642,12 +621,10 @@ addInvoice.setVisible(true);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariInvoice;
-    private javax.swing.JButton btnHapusInvoice;
     private javax.swing.JButton btnKembali2;
     private javax.swing.JButton btnLogout2;
     private javax.swing.JButton btnResetInvoice;
     private javax.swing.JButton btnSimpanInvoice;
-    private javax.swing.JButton btnTambahInvoice;
     private javax.swing.JButton btnUbahInvoice;
     private javax.swing.JPanel cardProduk;
     private javax.swing.JComboBox<SalesOrder> cbNoSO;

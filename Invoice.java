@@ -71,17 +71,28 @@ public class Invoice {
     }
    
     
-     public static List<Invoice> getDataInvoiceWithStatus(String cari) {
-       List<Invoice> daftar = new ArrayList<>();
-    String sql = """
+  public static List<Invoice> getDataInvoiceWithStatus(String cari, Integer status) {
+    List<Invoice> daftar = new ArrayList<>();
+    StringBuilder sql = new StringBuilder("""
         SELECT i.* 
         FROM invoice i
         JOIN sales_order so ON i.no_so = so.no_so
-        WHERE so.status = 0 AND i.no_invoice LIKE ?
-    """;
+        WHERE i.no_invoice LIKE ?
+    """);
 
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+    if (status != null) {
+        sql.append(" AND so.status = ?");
+    }
+
+    sql.append(" ORDER BY i.created_at DESC"); 
+
+    try (PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
         stmt.setString(1, "%" + cari + "%");
+
+        if (status != null) {
+            stmt.setInt(2, status);
+        }
+
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
@@ -99,16 +110,36 @@ public class Invoice {
     }
 
     return daftar;
+}
+
+
+   public static boolean isInvoiceExitstsKwitansi(String noInvoice) {
+    String sql = "SELECT COUNT(*) AS jumlah FROM kwitansi WHERE no_invoice = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, noInvoice);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt("jumlah");
+                return count > 0;
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal memeriksa no_invoice: " + e.getMessage());
+        e.printStackTrace();
     }
+    // Jika terjadi error (atau rs.next() false), kita anggap belum ada
+    return false;
+}
+  
     
     public void createInvoice() {
-        // FIXED: Query INSERT hanya butuh 5 parameter, bukan 6
+        // FIXED: Query INSERT hanya dibutuh 5 parameter, bukan 6
         String sql = "INSERT INTO invoice (no_invoice, no_so,  tanggal_invoice, tanggal_jatuh_tempo) VALUES (?,?,?,?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noInvoice);
             stmt.setString(2, noSO);
-            stmt.setDate(4, tanggalInvoice);
-            stmt.setDate(5, tanggalJatuhTempo);
+            stmt.setDate(3, tanggalInvoice);
+            stmt.setDate(4, tanggalJatuhTempo);
             
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -125,20 +156,14 @@ public class Invoice {
         String sql = "UPDATE invoice SET no_so = ?, tanggal_invoice = ?, tanggal_jatuh_tempo = ? WHERE no_invoice = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noSO);
-            stmt.setDate(3, tanggalInvoice);
-            stmt.setDate(4, tanggalJatuhTempo);
-            stmt.setString(5, noInvoice);
+            stmt.setDate(2, tanggalInvoice);
+            stmt.setDate(3, tanggalJatuhTempo);
+            stmt.setString(4, noInvoice);
 
             int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Invoice berhasil diperbarui.");
-            } else {
-                System.out.println("Invoice tidak ditemukan untuk diperbarui.");
-            }
+           
         } catch (SQLException e) {
-            System.out.println("Gagal memperbarui data invoice: " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException("Gagal memperbarui invoice: " + e.getMessage());
         }
     }
 

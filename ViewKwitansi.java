@@ -7,6 +7,10 @@ package pkgfinal.project.pbo;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import java.sql.Date;
+
+import javax.swing.table.DefaultTableModel;
 //import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -54,13 +58,12 @@ public class ViewKwitansi extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         cbMetodeBayar = new javax.swing.JComboBox<>();
-        txtIdKwitansi = new javax.swing.JTextField();
+        txtKwitansi = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         btnSimpanKwitansi = new javax.swing.JButton();
         btnResetKwitansi = new javax.swing.JButton();
         btnUbahKwitansi = new javax.swing.JButton();
-        btnHapusKwitansi = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtCatatan = new javax.swing.JTextArea();
         jLabel33 = new javax.swing.JLabel();
@@ -73,7 +76,6 @@ public class ViewKwitansi extends javax.swing.JFrame {
         cbInvoice = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(822, 661));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -187,7 +189,7 @@ public class ViewKwitansi extends javax.swing.JFrame {
 
         jLabel12.setText("Catatan :");
 
-        cbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Metode Bayar", " " }));
+        cbMetodeBayar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Metode Bayar", "Cash", "Transfer Bank" }));
         cbMetodeBayar.setEnabled(false);
         cbMetodeBayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,10 +197,10 @@ public class ViewKwitansi extends javax.swing.JFrame {
             }
         });
 
-        txtIdKwitansi.setEnabled(false);
-        txtIdKwitansi.addActionListener(new java.awt.event.ActionListener() {
+        txtKwitansi.setEnabled(false);
+        txtKwitansi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdKwitansiActionPerformed(evt);
+                txtKwitansiActionPerformed(evt);
             }
         });
 
@@ -224,13 +226,6 @@ public class ViewKwitansi extends javax.swing.JFrame {
         btnUbahKwitansi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUbahKwitansiActionPerformed(evt);
-            }
-        });
-
-        btnHapusKwitansi.setText("Hapus");
-        btnHapusKwitansi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusKwitansiActionPerformed(evt);
             }
         });
 
@@ -279,6 +274,15 @@ public class ViewKwitansi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(cardProdukLayout.createSequentialGroup()
+                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel34)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCariKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCariKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(cardProdukLayout.createSequentialGroup()
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
                             .addComponent(jLabel13)
@@ -287,38 +291,25 @@ public class ViewKwitansi extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jLabel15))
                         .addGap(25, 25, 25)
-                        .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtKwitansi)
+                            .addComponent(cbInvoice, 0, 196, Short.MAX_VALUE)
+                            .addComponent(cbMetodeBayar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTotalBayar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                        .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
+                                .addComponent(btnSimpanKwitansi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnResetKwitansi))
+                            .addComponent(jScrollPane3)
                             .addGroup(cardProdukLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnUbahKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnHapusKwitansi))
-                            .addGroup(cardProdukLayout.createSequentialGroup()
-                                .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbMetodeBayar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtTotalBayar)
-                                    .addComponent(txtIdKwitansi)
-                                    .addComponent(txtTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbInvoice, 0, 196, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                                .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
-                                        .addComponent(btnSimpanKwitansi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnResetKwitansi))
-                                    .addComponent(jScrollPane3)
-                                    .addGroup(cardProdukLayout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(216, 216, 216))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
-                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCariKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCariKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(216, 216, 216))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnUbahKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         cardProdukLayout.setVerticalGroup(
             cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,18 +327,12 @@ public class ViewKwitansi extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnUbahKwitansi)
-                    .addComponent(btnHapusKwitansi))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(btnUbahKwitansi)
                 .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(cardProdukLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(cardProdukLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtIdKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKwitansi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,17 +346,21 @@ public class ViewKwitansi extends javax.swing.JFrame {
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbMetodeBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))
-                        .addGap(5, 5, 5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnResetKwitansi)
-                        .addComponent(btnSimpanKwitansi))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtTotalBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel13))
+                            .addComponent(jLabel14)))
+                    .addGroup(cardProdukLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(cardProdukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTotalBayar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13))
-                        .addComponent(jLabel14)))
+                            .addComponent(btnResetKwitansi)
+                            .addComponent(btnSimpanKwitansi))))
                 .addContainerGap())
         );
 
@@ -426,34 +415,9 @@ public class ViewKwitansi extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCariKwitansiKeyPressed
 
-    private void btnHapusKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusKwitansiActionPerformed
-        // TODO add your handling code here:
-        if(txtIdKwitansi.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Pilih produk terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        int pilihan = JOptionPane.showConfirmDialog(
-            null,
-            "Apakah anda ingin menghapus data tersebut?",
-            "Hapus",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.WARNING_MESSAGE
-        );
-
-        if (pilihan == JOptionPane.OK_OPTION) {
-            Produk.deleteProduk(Integer.parseInt(txtIdKwitansi.getText()));
-            JOptionPane.showMessageDialog(this, "Berhasil menghapus produk!", "Alert", JOptionPane.INFORMATION_MESSAGE);
-            setFormKwitansiMode(false);
-            clearForm();
-
-            //            tampikanProduk(txtCariKwitansi.getText());
-        }
-    }//GEN-LAST:event_btnHapusKwitansiActionPerformed
-
     private void btnUbahKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahKwitansiActionPerformed
         // TODO add your handling code here:
-        if(txtIdKwitansi.getText().equals("")){
+        if(txtKwitansi.getText().equals("")){
             JOptionPane.showMessageDialog(this, "Pilih produk terlebih dahulu!", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -467,12 +431,30 @@ public class ViewKwitansi extends javax.swing.JFrame {
 
     private void btnSimpanKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanKwitansiActionPerformed
         // TODO add your handling code here:
+         if(cbMetodeBayar.getSelectedItem().toString() == "Pilih Metode Bayar"){
+                    JOptionPane.showMessageDialog(this, "Pilih Metode Bayar!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+         if(txtTanggal.getDate() == null){
+                    JOptionPane.showMessageDialog(this, "Tanggal tidak boleh kosong!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return ;
+        }
+          
+         String noInv=cbInvoice.getSelectedItem().toString();
+        Date sqlTanggal = new Date(txtTanggal.getDate().getTime());
+        Kwitansi kwt = new Kwitansi("KWT-"+noInv.substring(noInv.length()-4) , noInv, cbMetodeBayar.getSelectedItem().toString(), sqlTanggal, txtCatatan.getText(), Long.parseLong(txtTotalBayar.getValue().toString()));
+         kwt.updateKwitansi();
+        JOptionPane.showMessageDialog(this, "Kwitansi Berhasil disimpan", "Info", JOptionPane.INFORMATION_MESSAGE);
+       
+            tampilkanKwitansi("");
+            setFormKwitansiMode(false);
+            clearForm();
 
     }//GEN-LAST:event_btnSimpanKwitansiActionPerformed
 
-    private void txtIdKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdKwitansiActionPerformed
+    private void txtKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKwitansiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdKwitansiActionPerformed
+    }//GEN-LAST:event_txtKwitansiActionPerformed
 
     private void cbMetodeBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMetodeBayarActionPerformed
         // TODO add your handling code here:
@@ -484,8 +466,8 @@ public class ViewKwitansi extends javax.swing.JFrame {
         int selectedIndexRow = tblKwitansi.getSelectedRow();
 
         if (selectedIndexRow != -1) { // pastikan ada yang dipilih
-            txtIdKwitansi.setText(model.getValueAt(selectedIndexRow, 1).toString());
-            cbMetodeBayar.setSelectedItem(model.getValueAt(selectedIndexRow, 3).toString());
+            txtKwitansi.setText(model.getValueAt(selectedIndexRow, 1).toString());
+            cbInvoice.setSelectedItem(model.getValueAt(selectedIndexRow, 3).toString());
             String noInvoice = model.getValueAt(selectedIndexRow, 2).toString();
             for (int i = 0; i < cbInvoice.getItemCount(); i++) {
                 Invoice p = (Invoice) cbInvoice.getItemAt(i);
@@ -495,25 +477,15 @@ public class ViewKwitansi extends javax.swing.JFrame {
                 }
             }
 
-            String tanggalStr = model.getValueAt(selectedIndexRow, 3).toString(); // kolom 4 = tanggal
-            java.sql.Date sqlDate = (java.sql.Date) model.getValueAt(selectedIndexRow, 4); // kolom tanggal
-            java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
-            txtTanggal.setDate(utilDate);
+           txtTanggal.setDate((Date) model.getValueAt(selectedIndexRow, 3));
 
-            cbMetodeBayar.setSelectedItem(model.getValueAt(selectedIndexRow, 4).toString());
+             cbMetodeBayar.setSelectedItem(model.getValueAt(selectedIndexRow, 4).toString());
 
             txtCatatan.setText(model.getValueAt(selectedIndexRow, 5).toString());
             txtTotalBayar.setValue(Long.parseLong(model.getValueAt(selectedIndexRow, 6).toString()));
 
         }
     }//GEN-LAST:event_tblKwitansiMouseClicked
-
-    private void btnTambahKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahKwitansiActionPerformed
-        // TODO add your handling code here:
-
-        AddKwitansi adk = new AddKwitansi();
-        adk.setVisible(true);
-    }//GEN-LAST:event_btnTambahKwitansiActionPerformed
 
     private void btnKembali2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembali2ActionPerformed
         // TODO add your handling code here:
@@ -538,20 +510,27 @@ public class ViewKwitansi extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnTambahKwitansiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahKwitansiActionPerformed
+        // TODO add your handling code here:
+
+        AddKwitansi adk = new AddKwitansi();
+        adk.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnTambahKwitansiActionPerformed
      public void setFormKwitansiMode(Boolean flag){
 //        txtIdKwitansi.setEnabled(flag);
-        cbInvoice.setEnabled(flag);
-        txtTanggal.setEnabled(flag);
+//        cbInvoice.setEnabled(flag);
+//        txtTanggal.setEnabled(flag);
+//
+//        cbMetodeBayar.setEnabled(flag);
+        txtCatatan.setEnabled(flag);
 
-        cbMetodeBayar.setEnabled(flag);
-
-        txtTotalBayar.setEnabled(flag);
+//        txtTotalBayar.setEnabled(flag);
         btnSimpanKwitansi.setEnabled(flag);
         btnResetKwitansi.setEnabled(flag);
         
         btnUbahKwitansi.setEnabled(!flag);
-        btnTambahKwitansi.setEnabled(!flag);
-        btnHapusKwitansi.setEnabled(!flag);
         
          if (!flag) {
         // Hapus isi form saat nonaktif
@@ -560,7 +539,7 @@ public class ViewKwitansi extends javax.swing.JFrame {
    }
    public void clearForm(){
        
-        txtIdKwitansi.setText("");    
+        txtKwitansi.setText("");    
         
 //        if (cbInvoice.getItemCount() > 0) {
 //           cbInvoice.setSelectedIndex(0);
@@ -571,11 +550,12 @@ public class ViewKwitansi extends javax.swing.JFrame {
         txtTanggal.setDate(null);
         cbMetodeBayar.setSelectedIndex(0);
         txtTotalBayar.setValue(0);
+        txtCatatan.setText("");
       
    }
      private void tampilkanKwitansi(String cari) {
-    List<Kwitansi> daftar = Kwitansi.getDataKwitansi(cari);
-    String[] kolom = {"No", "No Kwitansi", "No Invoice", "Metode Bayar", "Tanggal", "Catatan", "Total Bayar"};
+    List<Kwitansi> daftar = Kwitansi.getDataKwitansi(cari, null);
+    String[] kolom = {"No", "No Kwitansi", "No Invoice", "Tanggal","Metode Bayar", "Catatan", "Total Bayar"};
 
     // Buat model tabel yang tidak bisa diedit
     DefaultTableModel model = new DefaultTableModel(kolom, 0) {
@@ -591,8 +571,9 @@ public class ViewKwitansi extends javax.swing.JFrame {
             ++i,
             k.noKwitansi,
             k.noInvoice,
+                        k.tanggal,
+
             k.metodeBayar,
-            k.tanggal,
             k.catatan,
            k.totalBayar
         };
@@ -602,9 +583,9 @@ public class ViewKwitansi extends javax.swing.JFrame {
     tblKwitansi.setModel(model); // set model baru ke JTable
 
     // Lebar kolom 'No' dibatasi agar kecil
-//    tblKwitansi.getColumnModel().getColumn(0).setMinWidth(30);
-//    tblKwitansi.getColumnModel().getColumn(0).setMaxWidth(30);
-//    tblKwitansi.getColumnModel().getColumn(0).setWidth(30);
+    tblKwitansi.getColumnModel().getColumn(0).setMinWidth(30);
+    tblKwitansi.getColumnModel().getColumn(0).setMaxWidth(30);
+    tblKwitansi.getColumnModel().getColumn(0).setWidth(30);
 }
 
             private void loadInvoiceToComboBox() {
@@ -612,7 +593,7 @@ public class ViewKwitansi extends javax.swing.JFrame {
                 
     cbInvoice.removeAllItems(); // kosongkan dulu
     
-        List<Invoice> daftar = Invoice.getDataInvoiceWithStatus("");
+        List<Invoice> daftar = Invoice.getDataInvoiceWithStatus("", null);
     for (Invoice d : daftar) {
         cbInvoice.addItem(d);
         }
@@ -655,7 +636,6 @@ public class ViewKwitansi extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCariKwitansi;
-    private javax.swing.JButton btnHapusKwitansi;
     private javax.swing.JButton btnKembali2;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnResetKwitansi;
@@ -684,7 +664,7 @@ public class ViewKwitansi extends javax.swing.JFrame {
     private javax.swing.JTable tblKwitansi;
     private javax.swing.JTextField txtCariKwitansi;
     private javax.swing.JTextArea txtCatatan;
-    private javax.swing.JTextField txtIdKwitansi;
+    private javax.swing.JTextField txtKwitansi;
     private com.toedter.calendar.JDateChooser txtTanggal;
     private javax.swing.JSpinner txtTotalBayar;
     // End of variables declaration//GEN-END:variables

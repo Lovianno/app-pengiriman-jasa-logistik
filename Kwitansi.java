@@ -45,39 +45,72 @@ public class Kwitansi {
         }
     }
 
-    // Mengambil daftar kwitansi berdasarkan nomor invoice
-    public static List<Kwitansi> getDataKwitansi(String cariInvoice) {
-        List<Kwitansi> daftar = new ArrayList<>();
-        String sql = "SELECT * FROM kwitansi WHERE no_kwitansi LIKE ?";
+    
+    /**
+ * Cek apakah sebuah no_invoice sudah terdaftar di tabel invoice.
+ *
+ * @param noInvoice  nomor invoice yang akan dicek
+ * @return true  jika no_invoice sudah ada (duplicate),
+ *         false jika no_invoice belum ada
+ */
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, "%" + cariInvoice + "%");
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Kwitansi k = new Kwitansi(
-                        rs.getString("no_kwitansi"),
-                        rs.getString("no_invoice"),
-                        rs.getString("metode_bayar"),
-                        rs.getDate("tanggal"),
-                        rs.getString("catatan"),
-                        rs.getLong("total_bayar")
-                    );
-                    daftar.add(k);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Gagal mengambil data kwitansi.");
-            e.printStackTrace();
+
+    // Mengambil daftar kwitansi berdasarkan nomor invoice
+   public static List<Kwitansi> getDataKwitansi(String cari, Integer status) {
+    List<Kwitansi> daftar = new ArrayList<>();
+
+    // Susun SQL dasar: JOIN kwitansi -> invoice -> sales_order
+    StringBuilder sql = new StringBuilder("""
+        SELECT k.* 
+        FROM kwitansi k
+        JOIN invoice i ON k.no_invoice = i.no_invoice
+        JOIN sales_order so ON i.no_so = so.no_so
+        WHERE k.no_kwitansi LIKE ?
+    """);
+
+    // Jika status tidak null, tambahkan filter
+    if (status != null) {
+        sql.append(" AND so.status = ?");
+    }
+
+    // Kita urutkan hasil berdasarkan tanggal pembuatan kwitansi terbaru
+    sql.append(" ORDER BY k.created_at DESC");
+
+    try (PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+        // Parameter pertama: pencarian no_kwitansi
+        stmt.setString(1, "%" + cari + "%");
+
+        // Jika ada filter status, set parameter kedua
+        if (status != null) {
+            stmt.setInt(2, status);
         }
 
-        return daftar;
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Kwitansi k = new Kwitansi(
+                    rs.getString("no_kwitansi"),
+                    rs.getString("no_invoice"),
+                    rs.getString("metode_bayar"),
+                    rs.getDate("tanggal"),       // kolom di DB diasumsikan bernama "tanggal"
+                    rs.getString("catatan"),
+                    rs.getLong("total_bayar")
+                );
+                daftar.add(k);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data kwitansi.");
+        e.printStackTrace();
     }
+
+    return daftar;
+}
     
     
    
     // Update kwitansi
     public void updateKwitansi() {
-        String sql = "UPDATE kwitansi SET no_invoice = ?, metode_bayar = ?, tanggal_kwitansi = ?, catatan = ?, total_bayar = ? WHERE no_kwitansi = ?";
+        String sql = "UPDATE kwitansi SET no_invoice = ?, metode_bayar = ?, tanggal = ?, catatan = ?, total_bayar = ? WHERE no_kwitansi = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, noInvoice);
             stmt.setString(2, metodeBayar);
@@ -91,7 +124,23 @@ public class Kwitansi {
             e.printStackTrace();
         }
     }
-
+public static boolean isInvoiceExitstsKwitansi(String noInvoice) {
+    String sql = "SELECT COUNT(*) AS jumlah FROM kwitansi WHERE no_invoice = ?";
+    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, noInvoice);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int count = rs.getInt("jumlah");
+                return count > 0;
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal memeriksa no_invoice: " + e.getMessage());
+        e.printStackTrace();
+    }
+    // Jika terjadi error (atau rs.next() false), kita anggap belum ada
+    return false;
+}
     // Hapus kwitansi
     public static void deleteKwitansi(String noKwitansi) {
         String sql = "DELETE FROM kwitansi WHERE no_kwitansi = ?";
@@ -104,15 +153,5 @@ public class Kwitansi {
         }
     }
 
-    // Cetak kwitansi
-    public void cetakKwitansi() {
-        System.out.println("===== KWITANSI =====");
-        System.out.println("No. Kwitansi   : " + noKwitansi);
-        System.out.println("Tanggal        : " + tanggal);
-        System.out.println("Metode Bayar   : " + metodeBayar);
-        System.out.println("No. Invoice    : " + noInvoice);
-        System.out.println("Catatan        : " + catatan);
-        System.out.println("Total Bayar    : Rp " + totalBayar);
-        System.out.println("====================");
-    }
+   
 }
