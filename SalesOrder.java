@@ -28,12 +28,14 @@ public class SalesOrder {
     protected int pegawaiId;
     protected int status;
     protected long hargaTotal;
-     public String namaCustomer;
+    public String namaCustomer;
     public String namaSupplier;
     public String namaPegawai;
      private static Connection conn = DatabaseConnection.getConnection();
 
-    
+     private List<DetailOrder> detailOrders;
+     
+     
     public SalesOrder(String noSO, Date tanggal, String dikirimDari, String tujuan, int customerId,
                       int supplierId, int pegawaiId, long hargaTotal, int status ) {
         this.noSO = noSO;
@@ -46,7 +48,13 @@ public class SalesOrder {
         this.status = status;
         this.hargaTotal = hargaTotal;
     }
-
+    
+    public List<DetailOrder> getDetailOrders() {
+        return detailOrders;
+    }
+     public void setDetailOrders(List<DetailOrder> detailOrders) {
+        this.detailOrders = detailOrders;
+    }
    public static List<SalesOrder> getDataSalesOrderJoin(String cari) {
     List<SalesOrder> daftarSO = new ArrayList<>();
     String sql = "SELECT so.*, c.nama AS nama_customer, s.nama AS nama_supplier, p.nama AS nama_pegawai " +
@@ -89,6 +97,65 @@ public class SalesOrder {
 
     return daftarSO;
 }
+   
+   public static List<SalesOrder> getSalesOrderToLaporan(Date fromDate, Date toDate, Integer status) {
+    List<SalesOrder> daftarSO = new ArrayList<>();
+    StringBuilder sql = new StringBuilder()
+        .append("SELECT so.*, ")
+        .append("       c.nama AS nama_customer, ")
+        .append("       s.nama AS nama_supplier, ")
+        .append("       p.nama AS nama_pegawai ")
+        .append("  FROM sales_order so ")
+        .append("  JOIN mitra c   ON so.customer_id = c.id ")
+        .append("  JOIN mitra s   ON so.supplier_id = s.id ")
+        .append("  JOIN pegawai p ON so.pegawai_id  = p.id ")
+        .append(" WHERE so.tanggal BETWEEN ? AND ? ");
+
+    if (status != null) {
+        sql.append(" AND so.status = ? ");
+    }
+
+    sql.append(" ORDER BY so.tanggal DESC, so.created_at DESC");
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+        int idx = 1;
+        pstmt.setDate(idx++, fromDate);
+        pstmt.setDate(idx++, toDate);
+        if (status != null) {
+            pstmt.setInt(idx++, status);
+        }
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                SalesOrder so = new SalesOrder(
+                    rs.getString("no_so"),
+                    rs.getDate("tanggal"),
+                    rs.getString("dikirim_dari"),
+                    rs.getString("tujuan"),
+                    rs.getInt("customer_id"),
+                    rs.getInt("supplier_id"),
+                    rs.getInt("pegawai_id"),
+                    rs.getLong("harga_total"),
+                    rs.getInt("status")
+                );
+                so.namaCustomer = rs.getString("nama_customer");
+                so.namaSupplier = rs.getString("nama_supplier");
+                so.namaPegawai  = rs.getString("nama_pegawai");
+
+                // muat detail‐order
+                List<DetailOrder> dets = DetailOrder.getDetailJoinByNoSO(so.noSO);
+                so.setDetailOrders(dets);
+
+                daftarSO.add(so);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return daftarSO;
+}
+
+   
 // untuk combobox
 public static List<SalesOrder> getDataSalesOrderByStatus(Integer status) {
     List<SalesOrder> daftarSO = new ArrayList<>();
