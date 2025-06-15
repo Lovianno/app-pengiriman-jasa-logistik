@@ -6,6 +6,9 @@ package pkgfinal.project.pbo;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.ResultSet;
 
 /**
  *
@@ -40,8 +43,8 @@ public class Supplier extends Mitra {
             stmt.setString(2, nama);
             stmt.setString(3, badanUsaha);
             stmt.setString(4, kategori);
-            stmt.setString(5, noTelp);
-            stmt.setString(6, email);
+            stmt.setString(5, email);
+            stmt.setString(6, noTelp);
             stmt.setString(7, jangkauanArea);
 
             stmt.executeUpdate();
@@ -70,5 +73,34 @@ public class Supplier extends Mitra {
             e.printStackTrace();
         }
     }
+    public static List<Supplier> getDataSupplierById(int idSupp) {
+    List<Supplier> daftarSupplier = new ArrayList<>();
+    String sql = "SELECT * FROM mitra WHERE id = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, idSupp);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Supplier supp = new Supplier(
+                    rs.getInt("id"),
+                            rs.getString("nama"),
+                              rs.getString("badan_usaha"),
+
+                             rs.getString("kategori"),
+                           rs.getString("email"),
+
+                            rs.getString("no_telp"),
+                            rs.getString("jangkauan_area")
+                );
+                daftarSupplier.add(supp);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data supplier.");
+        e.printStackTrace();
+    }
+    return daftarSupplier;
+}
+
 }
 

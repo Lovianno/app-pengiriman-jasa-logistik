@@ -305,7 +305,7 @@ public class LaporanMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cardProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(cardProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 479, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -376,8 +376,8 @@ public class LaporanMenu extends javax.swing.JFrame {
             so.tanggal,
             so.dikirimDari,
             so.tujuan,
-            so.namaCustomer,
-            so.namaSupplier,
+      so.getCustomers().isEmpty() ? "-" : so.getCustomers().get(0).nama,
+      so.getSuppliers().isEmpty() ? "-" : so.getSuppliers().get(0).nama,
             statusText
             
         });

@@ -28,11 +28,12 @@ public class SalesOrder {
     protected int pegawaiId;
     protected int status;
     protected long hargaTotal;
-    public String namaCustomer;
-    public String namaSupplier;
-    public String namaPegawai;
+    
      private static Connection conn = DatabaseConnection.getConnection();
 
+     private List<Customer> customers;
+    private List<Supplier> suppliers;
+    private List<Pegawai> pegawais;
      private List<DetailOrder> detailOrders;
      
      
@@ -49,6 +50,27 @@ public class SalesOrder {
         this.hargaTotal = hargaTotal;
     }
     
+    public List<Customer> getCustomers() {
+    return customers;
+    }
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
+    }
+
+    public List<Supplier> getSuppliers() {
+        return suppliers;
+    }
+    public void setSuppliers(List<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public List<Pegawai> getPegawais() {
+        return pegawais;
+    }
+    public void setPegawais(List<Pegawai> pegawais) {
+        this.pegawais = pegawais;
+    }
+
     public List<DetailOrder> getDetailOrders() {
         return detailOrders;
     }
@@ -57,13 +79,15 @@ public class SalesOrder {
     }
    public static List<SalesOrder> getDataSalesOrderJoin(String cari) {
     List<SalesOrder> daftarSO = new ArrayList<>();
-    String sql = "SELECT so.*, c.nama AS nama_customer, s.nama AS nama_supplier, p.nama AS nama_pegawai " +
+    String sql = "SELECT so.*, c.id AS customer_id, c.nama AS nama_customer, " +
+                 "s.id AS supplier_id, s.nama AS nama_supplier, " +
+                 "p.id AS pegawai_id, p.nama AS nama_pegawai " +
                  "FROM sales_order so " +
                  "JOIN mitra c ON so.customer_id = c.id " +
                  "JOIN mitra s ON so.supplier_id = s.id " +
                  "JOIN pegawai p ON so.pegawai_id = p.id " +
-                 "WHERE so.no_so LIKE ? OR so.tujuan LIKE ? OR so.dikirim_dari LIKE ?" +
-                 "ORDER BY so.created_at DESC"; 
+                 "WHERE so.no_so LIKE ? OR so.tujuan LIKE ? OR so.dikirim_dari LIKE ? " +
+                 "ORDER BY so.created_at DESC";
 
     try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
         String keyword = "%" + cari + "%";
@@ -84,10 +108,15 @@ public class SalesOrder {
                     rs.getLong("harga_total"),
                     rs.getInt("status")
                 );
-                 so.namaCustomer = rs.getString("nama_customer");
-                so.namaSupplier = rs.getString("nama_supplier");
-                so.namaPegawai = rs.getString("nama_pegawai");
-                // Kamu juga bisa set nama_customer dsb jika kamu tambahkan field di class SalesOrder
+
+                // Buat List satuan untuk masing-masing relasi (agar konsisten List)
+                List<Customer> custList = Customer.getDataCustomerById(so.customerId);  
+                so.setCustomers(custList);
+                List<Supplier> suppList = Supplier.getDataSupplierById(so.supplierId);  
+                 so.setSuppliers(suppList);
+               List<Pegawai> pegList = Pegawai.getDataPegawaiById(so.pegawaiId);  
+                 so.setPegawais(pegList);
+
                 daftarSO.add(so);
             }
         }
@@ -97,6 +126,7 @@ public class SalesOrder {
 
     return daftarSO;
 }
+
    
    public static List<SalesOrder> getSalesOrderToLaporan(Date fromDate, Date toDate, Integer status) {
     List<SalesOrder> daftarSO = new ArrayList<>();
@@ -138,9 +168,11 @@ public class SalesOrder {
                     rs.getLong("harga_total"),
                     rs.getInt("status")
                 );
-                so.namaCustomer = rs.getString("nama_customer");
-                so.namaSupplier = rs.getString("nama_supplier");
-                so.namaPegawai  = rs.getString("nama_pegawai");
+               List<Customer> custList = Customer.getDataCustomerById(so.customerId);  
+                so.setCustomers(custList);
+                List<Supplier> suppList = Supplier.getDataSupplierById(so.supplierId);  
+                 so.setSuppliers(suppList);
+             
 
                 // muat detail‐order
                 List<DetailOrder> dets = DetailOrder.getDetailJoinByNoSO(so.noSO);

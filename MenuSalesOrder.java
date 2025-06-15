@@ -284,9 +284,10 @@ public class MenuSalesOrder extends javax.swing.JFrame {
             so.tanggal.toString(),
             so.dikirimDari,
             so.tujuan,
-            so.namaCustomer, // Pastikan namaCustomer ditambahkan di class SalesOrder
-            so.namaSupplier,
-            so.namaPegawai,
+        so.getCustomers().isEmpty() ? "-" : so.getCustomers().get(0).nama,
+      so.getSuppliers().isEmpty() ? "-" : so.getSuppliers().get(0).nama,
+      so.getPegawais().isEmpty() ? "-" : so.getPegawais().get(0).nama,
+
             so.hargaTotal,
             statusText
         };

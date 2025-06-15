@@ -5,7 +5,10 @@
 package pkgfinal.project.pbo;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import static pkgfinal.project.pbo.Produk.conn;
 
 /**
@@ -43,8 +46,8 @@ public class Customer extends Mitra {
             stmt.setString(2, nama);
             stmt.setString(3, badanUsaha);
             stmt.setString(4, kategori);
-            stmt.setString(5, noTelp);
-            stmt.setString(6, email);
+            stmt.setString(5, email);
+            stmt.setString(6, noTelp);
             stmt.setString(7, nomorRekening);
 
             stmt.executeUpdate();
@@ -73,5 +76,34 @@ public class Customer extends Mitra {
             e.printStackTrace();
         }
     }
+    
+    public static List<Customer> getDataCustomerById(int idCust ){
+        List<Customer> daftarCustomer = new ArrayList<>();
+    String sql = "SELECT * FROM mitra WHERE id = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, idCust);  // cari bisa ada di mana saja (mengandung)
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Customer cust = new Customer(
+                     rs.getInt("id"),
+                            rs.getString("nama"),
+                            rs.getString("badan_usaha"),
+                            rs.getString("kategori"),
+                            rs.getString("email"),
+                            rs.getString("no_telp"),
+                            rs.getString("nomor_rekening")
+                );
+                daftarCustomer.add(cust);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data cust.");
+        e.printStackTrace();
+    }
+    return daftarCustomer;
+    }
+    
+    
 }
 

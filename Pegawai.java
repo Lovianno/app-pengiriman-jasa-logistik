@@ -82,6 +82,32 @@ public class Pegawai {
     }
     return daftarPegawai;
 }
+   public static List<Pegawai> getDataPegawaiById(int id) {
+    List<Pegawai> daftarPegawai = new ArrayList<>();
+    String sql = "SELECT * FROM pegawai WHERE id = ?";
+
+    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        pstmt.setInt(1, id);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Pegawai pegawai = new Pegawai(
+                    rs.getInt("id"),
+                    rs.getString("nama"),
+                    rs.getString("jabatan"),
+                    rs.getString("no_telp"),
+                    rs.getString("email"),
+                    rs.getString("password")
+                );
+                daftarPegawai.add(pegawai);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Gagal mengambil data pegawai by ID.");
+        e.printStackTrace();
+    }
+    return daftarPegawai;
+}
+
 
     public void createPegawai() {
         // logika simpan ke database nanti di sini
