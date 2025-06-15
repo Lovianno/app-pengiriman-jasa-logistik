@@ -26,10 +26,7 @@ public class Truk extends Produk {
         this.kapasitasMaksimal = kapasitasMaksimal;
     }
 
-    @Override
-    public void detailProduk() {
-        System.out.println("Truk: " + nama + " | Kapasitas Maks: " + kapasitasMaksimal);
-    }
+    
     @Override
     public void createProduk() {
        String sql = "INSERT INTO produk (id, nama, kategori, deskripsi, kapasitas_maksimal) VALUES (?,?,?,?, ?)";

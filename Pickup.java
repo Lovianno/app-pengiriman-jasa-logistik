@@ -25,10 +25,7 @@ public class Pickup extends Produk {
         this.panjangBak = panjangBak;
     }
 
-    @Override
-    public void detailProduk() {
-        System.out.println("Pickup: " + nama + " | Panjang Bak: " + panjangBak);
-    }
+    
     @Override
     public void createProduk() {
        String sql = "INSERT INTO produk (id, nama, kategori, deskripsi, panjang_bak) VALUES (?,?,?,?, ?)";

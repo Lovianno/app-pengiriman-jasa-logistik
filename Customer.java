@@ -34,10 +34,7 @@ public class Customer extends Mitra {
      }
     
     
-    @Override
-    public void detailMitra() {
-        System.out.println("SUPPLIER: " + nama + " | Area: " + nomorRekening);
-    }
+    
      @Override
     public void createMitra() {
         String sql = "INSERT INTO mitra (id, nama, badan_usaha, kategori,  email,no_telp, nomor_rekening) VALUES (?,?,?,?, ?, ?, ?)";

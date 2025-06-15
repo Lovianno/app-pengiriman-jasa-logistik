@@ -142,16 +142,16 @@ public static boolean isInvoiceExitstsKwitansi(String noInvoice) {
     return false;
 }
     // Hapus kwitansi
-    public static void deleteKwitansi(String noKwitansi) {
-        String sql = "DELETE FROM kwitansi WHERE no_kwitansi = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, noKwitansi);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Gagal menghapus kwitansi.");
-            e.printStackTrace();
-        }
-    }
+//    public static void deleteKwitansi(String noKwitansi) {
+//        String sql = "DELETE FROM kwitansi WHERE no_kwitansi = ?";
+//        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+//            stmt.setString(1, noKwitansi);
+//            stmt.executeUpdate();
+//        } catch (SQLException e) {
+//            System.out.println("Gagal menghapus kwitansi.");
+//            e.printStackTrace();
+//        }
+//    }
 
    
 }

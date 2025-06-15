@@ -37,7 +37,6 @@ public abstract class Produk {
     
      protected static Connection conn = DatabaseConnection.getConnection();
     
-    public abstract void detailProduk();
     public abstract void createProduk();
     public abstract void updateProduk();
     

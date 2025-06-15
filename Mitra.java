@@ -44,7 +44,6 @@ public abstract class Mitra {
     }
      protected static Connection conn = DatabaseConnection.getConnection();
 
-    public abstract void detailMitra();
     public abstract void createMitra();
     public abstract void updateMitra();
    

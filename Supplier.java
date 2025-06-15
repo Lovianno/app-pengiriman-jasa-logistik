@@ -31,10 +31,7 @@ public class Supplier extends Mitra {
          return jangkauanArea;
      }
     
-    @Override
-    public void detailMitra() {
-        System.out.println("SUPPLIER: " + nama + " | Area: " + jangkauanArea);
-    }
+   
      @Override
     public void createMitra() {
          String sql = "INSERT INTO mitra (id, nama, badan_usaha, kategori, email,no_telp, jangkauan_area) VALUES (?,?,?,?, ?, ?, ?)";
